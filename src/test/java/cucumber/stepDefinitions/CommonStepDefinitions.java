@@ -19,6 +19,7 @@ import ui.controls.Control;
 import utils.UrlEnvironmentSetter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,32 +29,34 @@ public class CommonStepDefinitions {
     private JavascriptExecutor jsDriver;
 
     @Then("I should see the following fields are shown:")
-    public void verifyMultipleFieldsAvailability (List< String > elements) throws Exception {
-        CommonSteps.verifyMultipleFieldsExists ( elements );
+    public void verifyMultipleFieldsAvailability(List<String> elements) throws Exception {
+        CommonSteps.verifyMultipleFieldsExists(elements);
     }
 
     @Then("I have the following text on the page")
     public void verifyTextOnThePage(List<List<String>> content) throws Exception {
-        CommonSteps. verifyGenericTextOnThePage (content);
+        CommonSteps.verifyGenericTextOnThePage(content);
     }
+
     @When("I should see the page contains the following data:")
     public void pageContainsData(List<Map<String, String>> content) throws Exception {
-        CommonSteps.verifyInputOfMultipleFields( content );
+        CommonSteps.verifyInputOfMultipleFields(content);
     }
+
     @Given("a user having valid credentials")
 
-    public void getEnvironmentClientPageCriteria(List<Map<String, String>> content)
+    public void getEnvironmentClientPageCriteria()
             throws Exception {
-        String environment = content.get(0).get("Env");
-        chooseEnvironmentAndLoginApp(environment, content);
-
+        chooseEnvironmentAndLoginApp( );
     }
+
     @Given("I have valid credentials for {string} environment")
-    public void chooseEnvironmentAndLoginApp (String environment, List<Map<String, String>> content)
-            throws Exception
-    {
-        UrlEnvironmentSetter.SetEnvironmentUrl();
-        CommonSteps.loginTo("Welcome to ADP", content);
+    public void chooseEnvironmentAndLoginApp()
+            throws Exception {
+        if (System.getProperty("byPassLogin").equalsIgnoreCase("no")) {
+            UrlEnvironmentSetter.SetEnvironmentUrl();
+            CommonSteps.loginTo("Welcome to ADP");
+        }
     }
 
     @Given("(the logged in user automatically navigates to)/(I am on the) {string} page/screen")
@@ -64,9 +67,9 @@ public class CommonStepDefinitions {
 
     @When("I click/tap on the {string} button/element/control")
     public void clickOnTheButton(String name) throws Exception {
-        Control control = Page.getCurrent ().onPage ( name );
-        Assert.assertNotNull ( "Unable to find '" + name + "' element on current page", control );
-        control.click ();
+        Control control = Page.getCurrent().onPage(name);
+        Assert.assertNotNull("Unable to find '" + name + "' element on current page", control);
+        control.click();
     }
 
     @When("I enter {string} into the {string} field")
@@ -76,22 +79,23 @@ public class CommonStepDefinitions {
 
     @When("I accept the alert message")
     public void acceptAlert() {
-        Driver.current ().switchTo ().alert ().accept ();
+        Driver.current().switchTo().alert().accept();
     }
 
     @When("I populate current page with the following data:")
-    public void populatePageWithData(List<Map<String, String>>  content) throws Exception {
-        enterTextOnPage ( content );
+    public void populatePageWithData(List<Map<String, String>> content) throws Exception {
+        enterTextOnPage(content);
     }
 
     private void enterTextOnPage(List<Map<String, String>> content) throws Exception {
-        CommonSteps.enterTextIntoMultipleFields( content );
+        CommonSteps.enterTextIntoMultipleFields(content);
     }
 
     @Then("I should see the {string} field is available/present")
     public Control verifyElementExists(String fieldName) throws Exception {
         return (Control) CommonSteps.verifyElementExists(fieldName);
     }
+
     @And("I should see the {string} field is available/present on {string} page")
     public void iShouldSeeTheFieldIsAvailableOnPage(String fieldname, String page) throws Exception {
         Page.getCurrent().waitForAngularRequestToComplete();
@@ -111,12 +115,12 @@ public class CommonStepDefinitions {
 
     @Then("I should see the {string} text is shown")
     public void verifyTextIsPresent(String text) {
-        CommonSteps.verifyTextPresence ( text );
+        CommonSteps.verifyTextPresence(text);
     }
 
     @Then("I should see the following labels are shown:")
     public void verifyMultipleLabelsAvailability(List<String> elements) throws Exception {
-        CommonSteps.verifyLabelsAvailability ( elements );
+        CommonSteps.verifyLabelsAvailability(elements);
     }
 
     @Then("/(I should see/the)/ {string} list is {} empty")
@@ -132,12 +136,12 @@ public class CommonStepDefinitions {
 
     @When("/(I |)(click|tap)/ on the (first|last) {string} element of the {string} (list|table)")
     public void clickOnSubItem(String firstLast, String item, String list) throws Exception {
-        CommonSteps.clickOnSubItem (firstLast, item, list);
+        CommonSteps.clickOnSubItem(firstLast, item, list);
     }
 
     @When("(New/the) user navigates to {string}")
     public void newUserNavigatesTo(String page) throws Exception {
-        navigateToPage ( page );
+        navigateToPage(page);
     }
 
     @Then("(New/the) user is able to enter personal details and register")
@@ -152,34 +156,12 @@ public class CommonStepDefinitions {
 
     @And("the user logs off")
     public void theUserLogsOff() throws Exception {
-        CommonSteps.logoffUser();
+        CommonSteps.clickOnLeftNavigationItem(CommonSteps.createDataTable(Collections.singletonList("Dashboard")));
+//        CommonSteps.logoffUser();
     }
 
     @Then("I tap the navigation links and see the corresponding task panel")
-    public void clickNavItem (DataTable content) throws Exception {
-        List<String> items = content.asList();
-        Page.getCurrent().waitForAngularRequestToComplete();
-
-        String locator = "#nas-top-menu > a.bread-crumb.home-crumb > span";
-        Page.getCurrent().buildCssControl(locator).isClickable(15);
-        Page.getCurrent().buildCssControl(locator).click();
-        PageFactory.init(HireEmployee.class);
-        for (String item : items) {
-
-            Page.getCurrent().waitForAngularRequestToComplete();
-            locator = String.format ( "//span[normalize-space(text())='%s']", item);
-            Control control = Page.getCurrent()
-                    .buildXpathControl(locator);
-            control.isClickable(60);
-            try {
-                control.click();
-            } catch (ElementClickInterceptedException e) {
-                control.isClickable(15);
-                control.click();
-            }
-        }
-        String fileName = "./target/screenshots/passed/" + Page.getCurrent().getClass().getSimpleName()
-                + "-" + new Date().getTime() + ".png";
-        Page.getCurrent().captureScreenShot(fileName);
+    public void clickNavItem(DataTable content) throws Exception {
+        CommonSteps.clickOnLeftNavigationItem(content);
     }
 }

@@ -3,10 +3,15 @@ package cucumber.steps;
 import com.github.javafaker.Faker;
 import controls.AdpControl;
 import io.cucumber.datatable.DataTable;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pages.EnterpriseHomePage;
+import pages.HireEmployee;
 import ui.Page;
 import ui.PageFactory;
 import ui.controls.Control;
@@ -14,12 +19,15 @@ import ui.controls.Edit;
 import ui.controls.SelectList;
 import ui.controls.TableView;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import static ui.Page.getCurrent;
 
 public class CommonSteps {
+    public static final String ACTIVITY = "'Activity'";
     private static EnterpriseHomePage enterpriseHomePage;
     private static Faker faker = Faker.instance();
     private static AdpControl adpControl;
@@ -43,18 +51,18 @@ public class CommonSteps {
         enterpriseHomePage.btnOk.click();
     }
 
-    public static void loginTo(String name, List<Map<String, String>> content) throws Exception {
+    public static void loginTo(String name) throws Exception {
         goingTo(name);
 
         if (System.getProperty("userType").equalsIgnoreCase("adpUser")) {
-            enterLoginCredentials(content);
-            loginUsingLadpUser (content);
+            enterLoginCredentials();
+            loginUsingLadpUser ();
         } else
-            enterLoginCredentials(content);
+            enterLoginCredentials();
         System.setProperty("loggedin", "yes");
     }
 
-    private static void loginUsingLadpUser(List<Map<String, String>> content) throws Exception {
+    private static void loginUsingLadpUser() throws Exception {
 
         String cssLocator =  "#toolbarQuickSearchInput";
         Control quickSearch = getCurrent().buildCssControl(cssLocator);
@@ -74,15 +82,15 @@ public class CommonSteps {
         xpathPractitioner.click();
     }
 
-    private static void enterLoginCredentials(List<Map<String, String>> content) throws Exception {
-        for (Map<String, String> row : content) {
-            if (row.get("Environment").equalsIgnoreCase(System.getProperty("environment"))) {
-                typeAndEnter(row.get("User Id"), "User Id");
-                typeAndEnter(row.get("Password"), "Password");
-                System.setProperty("client", row.get("Client"));
-                break;
-            }
-        }
+    private static void enterLoginCredentials() throws Exception {
+        String user = System.getProperty("user");
+        String psw = System.getProperty("psw");
+
+        if (user == null || psw == null || user.isEmpty() || psw.isEmpty())
+            throw new RuntimeException("Missing credentials for login!\n Please add to runconfiguration.");
+
+        typeAndEnter(user, "User Id");
+        typeAndEnter(psw, "Password");
     }
 
     public static void goingTo(String name) throws Exception {
@@ -219,5 +227,62 @@ public class CommonSteps {
     public static void selectByVisibleText(String text, By locator) {
         SelectList selectList = new SelectList(Page.getCurrent(), locator);
         selectList.selectByText(text);
+    }
+
+    public static void clickOnLeftNavigationItem(DataTable content) throws Exception {
+        List<String> items = content.asList();
+        Page.getCurrent().waitForAngularRequestToComplete();
+
+        String locator = "#nas-top-menu > a.bread-crumb.home-crumb > span";
+        Page.getCurrent().buildCssControl(locator).isClickable(15);
+        Page.getCurrent().buildCssControl(locator).click();
+//        PageFactory.init(HireEmployee.class);
+        for (String item : items) {
+
+            Page.getCurrent().waitForAngularRequestToComplete();
+//            locator = String.format ( "//span[normalize-space(text())='%s']", item);
+            locator = String.format ( "//a//span[contains(text(),'%s')][@class='label']", item);
+            WebElement webElement = Page.getCurrent().getDriver().findElement(By.xpath(locator));
+            Control control = null;
+            try {
+                moveToElement(webElement);
+                control = Page.getCurrent()
+                        .buildXpathControl(locator);
+                control.click();
+//                webElement.click();
+            } catch (ElementClickInterceptedException e) {
+                control.isClickable(15);
+                control.click();
+            }
+
+        }
+        String fileName = "./target/screenshots/passed/" + Page.getCurrent().getClass().getSimpleName()
+                + "-" + new Date().getTime() + ".png";
+        Page.getCurrent().captureScreenShot(fileName);
+    }
+    public static void selectTaskFromGlobalSearch (String parentTask, String task, String locatorPattern) {
+
+        String gsl = "#toolbarQuickSearchInput";
+        Page.getCurrent().buildCssControl(gsl).click();
+        Page.getCurrent().buildCssControl(gsl).element().clear();
+//        Page.getCurrent().buildCssControl(gsl).element().sendKeys("Reverse Check");
+        Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
+
+        String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
+        Page.getCurrent().buildXpathControl(act).click();
+
+//        String l = "//*[text()='Step 2: Enter Pay Period Information']/following-sibling::div/a";
+        String l = String.format(locatorPattern,parentTask);
+        Page.getCurrent().buildXpathControl(l).click();
+
+    }
+    public static void moveToElement(WebElement webElement) {
+        Actions actions = new Actions( Page.getCurrent ().getDriver() );
+        actions.moveToElement ((WebElement) webElement);
+        actions.perform ();
+    }
+
+    public static DataTable createDataTable(List<String> raw) {
+        return DataTable.create(Collections.singletonList(raw));
     }
 }

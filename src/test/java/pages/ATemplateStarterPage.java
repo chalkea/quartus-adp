@@ -13,11 +13,13 @@ public class ATemplateStarterPage extends Page {
     @FindBy(locator = "css=#somelocator", excludeFromSearch = false)
     public Control logicalfieldname;
 
-    public ATemplateStarterPage(WebDriver driver) { super(driver); }
-
     @Override
     public Page navigate() {
         Page.setCurrent( this );
         return this;
     }
+
+    public ATemplateStarterPage(WebDriver driver) { super(driver); }
+
+
 }
