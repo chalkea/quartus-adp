@@ -164,4 +164,13 @@ public class CommonStepDefinitions {
     public void clickNavItem(DataTable content) throws Exception {
         CommonSteps.clickOnLeftNavigationItem(content);
     }
+
+    @And("Practitioner enters {string} into the {string} and select value from search prompt")
+    public void practitionerEntersIntoTheAndSelectValueFromSearchPrompt(String value, String field) throws Exception {
+        CommonSteps.enterValue(value, field);
+        CommonSteps.selectFromSearchPrompt("//span[contains(text(), 'N1234')]");
+        CommonSteps.clickOnElement("Search Button");
+        CommonSteps.clickOnElement("Highest Access Checkbox");
+        CommonSteps.clickOnElement("Save Button");
+    }
 }

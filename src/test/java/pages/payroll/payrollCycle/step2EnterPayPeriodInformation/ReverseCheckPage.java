@@ -69,3 +69,15 @@ public class ReverseCheckPage extends Page {
     }
     public ReverseCheckPage(WebDriver driver) { super(driver); }
 }
+//.actity-menu-items a
+//a[contains(text(), 'Profile')]
+//.actity-menu-items
+//*[contains(@class, 'actity-menu-items')]
+//*[contains(@class, 'valid-label')][contains(text(), 'Operator ID')]
+//task-search__OS_OPERATOR_ACCT:1256xOPRIDx5
+//task-search__OS_OPERATOR_ACCT:1256xOPRIDx5
+//*[contains(@class, 'valid-label')][contains(text(), 'Operator ID')]/following-sibling::span
+//*[@id='Testing']
+//*[@id="testing"]/div/input
+//data-popup-uid="VanBaseDropdownInput-1638065992553"
+//span[contains(text(), 'N1234')]

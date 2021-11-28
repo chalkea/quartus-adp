@@ -6,6 +6,7 @@ import core.Driver;
 import io.cucumber.core.api.Scenario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import org.junit.AfterClass;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -75,6 +76,7 @@ public class WebHooks {
 
     @After
     public void afterScenario (Scenario scenario ) throws Exception {
+        System.out.println(scenario.getName() + "\n" +scenario.getLine());
         switch (sameBrowser) {
             case "yes":
                 skipBrowserStuff = null;

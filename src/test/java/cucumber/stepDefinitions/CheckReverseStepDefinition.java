@@ -9,7 +9,6 @@ public class CheckReverseStepDefinition {
     @Given("Practitioner User is on the {string} page under {string}")
     public void practitionerUserIsOnThePage(String theTask, String parentTask) throws Exception {
         Context.put("theTask", theTask);
-        Context.put("task", theTask);
         Context.put("parentTask", parentTask);
         commonStepDefinitions.chooseEnvironmentAndLoginApp();
         CommonSteps.goingTo(theTask);

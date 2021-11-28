@@ -2,13 +2,11 @@ package cucumber.steps;
 
 import com.github.javafaker.Faker;
 import controls.AdpControl;
+import core.Driver;
 import io.cucumber.datatable.DataTable;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import pages.EnterpriseHomePage;
 import pages.HireEmployee;
@@ -24,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static org.openqa.selenium.Keys.ENTER;
 import static ui.Page.getCurrent;
 
 public class CommonSteps {
@@ -107,7 +106,7 @@ public class CommonSteps {
     }
     public static void typeAndEnter(String text, String fieldName ) throws Exception {
         Control control = enterValue(text, fieldName);
-        control.element().sendKeys(Keys.ENTER);
+        control.element().sendKeys(ENTER);
     }
 
 
@@ -236,7 +235,6 @@ public class CommonSteps {
         String locator = "#nas-top-menu > a.bread-crumb.home-crumb > span";
         Page.getCurrent().buildCssControl(locator).isClickable(15);
         Page.getCurrent().buildCssControl(locator).click();
-//        PageFactory.init(HireEmployee.class);
         for (String item : items) {
 
             Page.getCurrent().waitForAngularRequestToComplete();
@@ -254,26 +252,30 @@ public class CommonSteps {
                 control.isClickable(15);
                 control.click();
             }
-
+            Thread.sleep(1000);
         }
         String fileName = "./target/screenshots/passed/" + Page.getCurrent().getClass().getSimpleName()
                 + "-" + new Date().getTime() + ".png";
         Page.getCurrent().captureScreenShot(fileName);
     }
-    public static void selectTaskFromGlobalSearch (String parentTask, String task, String locatorPattern) {
+    public static void selectTaskFromGlobalSearch (String parentTask, String task, String locatorPattern)  {
 
         String gsl = "#toolbarQuickSearchInput";
         Page.getCurrent().buildCssControl(gsl).click();
         Page.getCurrent().buildCssControl(gsl).element().clear();
 //        Page.getCurrent().buildCssControl(gsl).element().sendKeys("Reverse Check");
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
-
+//
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
         Page.getCurrent().buildXpathControl(act).click();
 
-//        String l = "//*[text()='Step 2: Enter Pay Period Information']/following-sibling::div/a";
-        String l = String.format(locatorPattern,parentTask);
-        Page.getCurrent().buildXpathControl(l).click();
+//        String locator = "//*[text()='Step 2: Enter Pay Period Information']/following-sibling::div/a";
+        String locator = String.format(locatorPattern,parentTask);
+        WebDriver driver = Page.getCurrent().getDriver();
+        WebElement element = driver.findElement(By.xpath(locator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        doThreadSleep(500);
+        Page.getCurrent().buildXpathControl(locator).click();
 
     }
     public static void moveToElement(WebElement webElement) {
@@ -284,5 +286,19 @@ public class CommonSteps {
 
     public static DataTable createDataTable(List<String> raw) {
         return DataTable.create(Collections.singletonList(raw));
+    }
+    private static void doThreadSleep(long mils) {
+        try {
+            Thread.sleep(mils);
+        } catch (InterruptedException e) {
+        }
+    }
+
+    public static void selectFromSearchPrompt(String locator) {
+        Page.getCurrent().buildXpathControl(locator).click();
+    }
+
+    public static void pressEnter(String s) {
+        Page.getCurrent().buildXpathControl(s).element().sendKeys(ENTER);
     }
 }

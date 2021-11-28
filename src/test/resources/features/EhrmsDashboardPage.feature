@@ -6,9 +6,9 @@ Feature: Dashboard and Navigation tests
   Scenario Outline: People task group navigation 2 to 3 deep task panels
     Given a user having valid credentials
     And I go to the "Ehrms Dashboard" page
-    Then I tap the navigation links and see the corresponding task panel
+    When I tap the navigation links and see the corresponding task panel
       | <Level 0> | <Level 1> | <Level 2> | <Level 3> |
-    And I should see the "<Check for>" field is available on "<Landing Page>" page
+    Then I should see the "<Check for>" field is available on "<Landing Page>" page
 #    And the user logs off
     Examples:
       | Landing Page         | Check for     | Level 0 | Level 1                       | Level 2                         | Level 3                     |
