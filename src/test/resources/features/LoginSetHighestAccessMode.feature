@@ -1,6 +1,7 @@
 Feature: Set Highest Access Mode
 
   @HighestAccessMode
+  @SqlDb
   Scenario: Set Highest Access Mode
     Given Practitioner User is on the "Profile" page under "Operator"
     And Practitioner enters "N1234" into the "Operator Id" and select value from search prompt

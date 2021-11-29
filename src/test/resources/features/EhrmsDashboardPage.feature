@@ -1,3 +1,4 @@
+@Web
 Feature: Dashboard and Navigation tests
   As a Practitioner, I should be able to select panel groups
   and navigate to pages required to complete HR tasks

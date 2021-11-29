@@ -2,14 +2,11 @@ package cucumber.steps;
 
 import com.github.javafaker.Faker;
 import controls.AdpControl;
-import core.Driver;
 import io.cucumber.datatable.DataTable;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import pages.EnterpriseHomePage;
-import pages.HireEmployee;
 import ui.Page;
 import ui.PageFactory;
 import ui.controls.Control;
@@ -247,7 +244,6 @@ public class CommonSteps {
                 control = Page.getCurrent()
                         .buildXpathControl(locator);
                 control.click();
-//                webElement.click();
             } catch (ElementClickInterceptedException e) {
                 control.isClickable(15);
                 control.click();
@@ -263,18 +259,14 @@ public class CommonSteps {
         String gsl = "#toolbarQuickSearchInput";
         Page.getCurrent().buildCssControl(gsl).click();
         Page.getCurrent().buildCssControl(gsl).element().clear();
-//        Page.getCurrent().buildCssControl(gsl).element().sendKeys("Reverse Check");
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
-//
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
         Page.getCurrent().buildXpathControl(act).click();
 
-//        String locator = "//*[text()='Step 2: Enter Pay Period Information']/following-sibling::div/a";
         String locator = String.format(locatorPattern,parentTask);
         WebDriver driver = Page.getCurrent().getDriver();
         WebElement element = driver.findElement(By.xpath(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        doThreadSleep(500);
         Page.getCurrent().buildXpathControl(locator).click();
 
     }
