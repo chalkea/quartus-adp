@@ -153,7 +153,6 @@ public class CommonSteps {
             System.out.println ( content.get ( i ).get ( 0 ) + " " + content.get ( i ).get ( 1 ) );
             verifyFieldText ( content.get ( i ).get ( 0 ).toString (), content.get ( i ).get ( 1 ).toString () );
         }
-
     }
 
     public static void verifyMultipleFieldsExists(List<String> elements) throws Exception {
@@ -172,7 +171,6 @@ public class CommonSteps {
         for (Map<String, String> row : content) {
             enterValue ( row.get ( "Field" ), row.get ( "Value" ) );
         }
-
     }
 
     public static void verifyTextPresence(String text) {

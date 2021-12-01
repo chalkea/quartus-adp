@@ -1,10 +1,9 @@
-package mvc.view.people.personnelActions.hireEmployee;
+package pages.people.personnelActions.hireEmployee;
 
 import core.Alias;
 import core.Context;
 import cucumber.steps.CommonSteps;
 import org.openqa.selenium.WebDriver;
-import pages.HireEmployee;
 import ui.FindBy;
 import ui.Page;
 import ui.PageFactory;
@@ -27,7 +26,7 @@ public class EmployeeInformationPage extends Page{
         String locatorPattern = String.format("//*[contains(@class, 'actity-menu-items')]//a[(text()='%s')]", theTask);
         selectTaskFromGlobalSearch((String) Context.get("parentTask"), theTask, locatorPattern);
         try {
-            PageFactory.init(HireEmployee.class);
+            PageFactory.init(EmployeeInformationPage.class);
             CommonSteps.clickOnElement("Ok Button");
         } catch (Exception e) {
             e.printStackTrace();
