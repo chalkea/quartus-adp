@@ -1,4 +1,4 @@
-Feature: People International
+Feature: Step 3: Set Up Development Factors
   As a Practitioner I want to be able to address international HR requirements in
   our Enterprise HR Application
 

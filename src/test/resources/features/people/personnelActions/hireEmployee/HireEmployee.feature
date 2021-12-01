@@ -23,3 +23,4 @@ Feature: Hire Employee Panel Group
       | Level 0 | Level 1           | Level 2       | Level 3            |
       | People  | Personnel Actions | Hire Employee | General Deductions |
 #      | People  | Personnel Actions | Hire Employee | General Deductions Summary |
+#      | People  | Personnel Actions | Hire Employee | General Deductions Summary |

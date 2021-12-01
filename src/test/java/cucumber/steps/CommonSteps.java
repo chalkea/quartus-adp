@@ -261,6 +261,8 @@ public class CommonSteps {
         Page.getCurrent().buildCssControl(gsl).element().clear();
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
+        doThreadSleep(500);
+        
         Page.getCurrent().buildXpathControl(act).click();
 
         String locator = String.format(locatorPattern,parentTask);

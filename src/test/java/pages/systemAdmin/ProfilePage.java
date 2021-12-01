@@ -19,7 +19,6 @@ public class ProfilePage extends Page {
 
     @Alias("Operator Id")
     @FindBy(locator = "css=#task-search__OS_OPERATOR_ACCT\\:1256xOPRIDx5 input", excludeFromSearch = false)
-//    @FindBy(locator = "css=#testing > div > input", excludeFromSearch = false)
     public Edit operatorId;
 
     @Alias("Select Operator ID")
@@ -38,10 +37,6 @@ public class ProfilePage extends Page {
     @FindBy(locator = "css=#entNonEffTabDiv adp-snackbar adp-button button", excludeFromSearch = false)
     public Control saveButton;
 
-    // Profile Description: #testing > div > input
-    // Profile User ID: #testing > div > input
-    // Name: #task-search__OS_OPERATOR_ACCT\:1256xNAMEx4
-    // Operator id: #testing > div > input
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -49,8 +44,9 @@ public class ProfilePage extends Page {
 
     @Override
     public Page navigate() {
-        String locatorPattern = "//*[contains(@class, 'actity-menu-items')]//a[(text()='Profile')]";
-        selectTaskFromGlobalSearch((String) Context.get("parentTask"), (String) Context.get("theTask"), locatorPattern);
+        String theTask = (String) Context.get("theTask");
+        String locatorPattern = String.format("//*[contains(@class, 'actity-menu-items')]//a[(text()='Profile')]", theTask);
+        selectTaskFromGlobalSearch((String) Context.get("parentTask"), theTask, locatorPattern);
         Page.setCurrent(this);
         return this;
     }
