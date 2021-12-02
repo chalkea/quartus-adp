@@ -48,7 +48,7 @@ public class EmployeeInformationModel {
 
     public List<Map<String, String>> getEmployeeInfoDataMap() {
         Map<String, String> employeeInformation = new HashMap<>();
-        employeeInformation.put(this.socialSecurity, "Social Security");
+
         employeeInformation.put(this.socialSecurity, "Social Security");
         employeeInformation.put(this.firstName, "First Name");
         employeeInformation.put(this.middleName, "Middle Name");
