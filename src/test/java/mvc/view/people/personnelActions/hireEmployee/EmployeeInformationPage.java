@@ -1,4 +1,4 @@
-package pages.people.personnelActions.hireEmployee;
+package mvc.view.people.personnelActions.hireEmployee;
 
 import core.Alias;
 import core.Context;

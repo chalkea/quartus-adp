@@ -113,9 +113,14 @@ public class CommonSteps {
         return control;
     }
 
-    public static Object verifyElementExists(String fieldName) throws Exception {
+    public static Object verifyElementExists(String fieldName)  {
         Page.getCurrent().waitForAngularRequestToComplete();
-        Control control = getCurrent ().onPage ( fieldName );
+        Control control = null;
+        try {
+            control = getCurrent ().onPage ( fieldName );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Assert.assertNotNull ( "Unable to find '" + fieldName + "' element on current page", control );
         Assert.assertTrue ( "Element '" + fieldName + "' is not available", control.exists () );
         return control;
@@ -167,9 +172,13 @@ public class CommonSteps {
         }
     }
 
-    public static void enterTextIntoMultipleFields(List<Map<String, String>> content) throws Exception {
+    public static void enterTextIntoMultipleFields(List<Map<String, String>> content)  {
         for (Map<String, String> row : content) {
-            enterValue ( row.get ( "Field" ), row.get ( "Value" ) );
+            try {
+                enterValue ( row.get ( "Field" ), row.get ( "Value" ) );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -213,7 +222,7 @@ public class CommonSteps {
 
     }
 
-    public static void clickOnElement(String search_button) throws Exception {
+    public static void clickOnElement(String search_button)  {
         Control control = (Control) verifyElementExists(search_button);
         control.click();
     }
@@ -259,7 +268,7 @@ public class CommonSteps {
         Page.getCurrent().buildCssControl(gsl).element().clear();
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
-        doThreadSleep(500);
+        doThreadSleep(1000);
         
         Page.getCurrent().buildXpathControl(act).click();
 

@@ -1,4 +1,4 @@
-package pages.people.personnelActions.hireEmployee;
+package mvc.view.people.personnelActions.hireEmployee;
 
 import core.Alias;
 import core.Context;
@@ -38,6 +38,7 @@ public class HrInformationHirePage extends Page {
     @Override
     public Page navigate() {
         String theTask = (String) Context.get("theTask");
+        theTask = theTask.replaceAll("Hire","\\(Hire\\)");
         String locatorPattern = String.format("//*[contains(@class, 'actity-menu-items')]//a[(text()='%s')]", theTask);
         selectTaskFromGlobalSearch((String) Context.get("parentTask"), theTask, locatorPattern);
         try {
