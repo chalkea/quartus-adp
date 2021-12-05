@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openqa.selenium.Keys.ENTER;
+import static org.openqa.selenium.Keys.TAB;
 import static ui.Page.getCurrent;
 
 public class CommonSteps {
@@ -41,8 +42,11 @@ public class CommonSteps {
     public static void logoffUser() throws Exception {
         EnterpriseHomePage enterpriseHomePage = PageFactory.init(EnterpriseHomePage.class);
         Page.setCurrent(enterpriseHomePage);
+        doWhileSpinnerIsPresent();
         enterpriseHomePage.leftNavNasUser.click();
+        doWhileSpinnerIsPresent();
         enterpriseHomePage.leftNavLogoff.click();
+        doWhileSpinnerIsPresent();
         getCurrent().getDriver().switchTo().activeElement();
         enterpriseHomePage.btnOk.click();
     }
@@ -70,12 +74,16 @@ public class CommonSteps {
 
         String locator = String.format ( "//*[text()='%s' or contains(text(), '%s' )]", client, client);
         Control xpath = getCurrent().buildXpathControl(locator);
-        xpath.click();
+//        doWhileSpinnerIsPresent();
+//        xpath.click();
+        clickControl(xpath);
 
         String locatorPractitioner = String.format ( "//*[text()='%s' or contains(text(), '%s' )]", "Practitioner", "Practitioner");
         Control xpathPractitioner = getCurrent().buildXpathControl(locatorPractitioner);
         xpathPractitioner.isClickable(30);
-        xpathPractitioner.click();
+//        doWhileSpinnerIsPresent();
+//        xpathPractitioner.click();
+        clickControl(xpathPractitioner);
     }
 
     private static void enterLoginCredentials() throws Exception {
@@ -101,13 +109,36 @@ public class CommonSteps {
         Page.setCurrent ( target );
 
     }
-    public static void typeAndEnter(String text, String fieldName ) throws Exception {
-        Control control = enterValue(text, fieldName);
-        control.element().sendKeys(ENTER);
+    public static void typeAndEnter(String text, String fieldName )  {
+        try {
+            Control control = enterValue(text, fieldName);
+            control.element().sendKeys(ENTER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void typeAndTab(String text, String fieldName) {
+        try {
+            Control control = enterValue(text, fieldName);
+            doThreadSleep(3000);
+            if (control.getText().isEmpty()) {enterValue(text, fieldName);}
+            control.element().sendKeys(TAB);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    public static void doWhileSpinnerIsPresent() {
+        boolean oneOrMoreSpinnersOnPage = true;
+        while (oneOrMoreSpinnersOnPage == true ) {
+            List<WebElement> spinnerCount = Page.getCurrent().getDriver()
+                    .findElements(By.xpath("//svg[contains(@class, 'nas-busy-indicator__icon') or contains(@class, 'vdl-busy-indicator__icon')]"));
+            oneOrMoreSpinnersOnPage = spinnerCount.size() != 0;
+        } ////*[contains(@class, 'actity-menu-items')]
+    }
 
     public static Control enterValue(String text, String fieldName) throws Exception {
+        doWhileSpinnerIsPresent();
         Edit control = (Edit) verifyElementExists(fieldName);
         control.setText(text);
         return control;
@@ -172,10 +203,10 @@ public class CommonSteps {
         }
     }
 
-    public static void enterTextIntoMultipleFields(List<Map<String, String>> content)  {
-        for (Map<String, String> row : content) {
+    public static void enterTextIntoMultipleFields(Map<String, String> content)  {
+        for (Map.Entry<String, String> row : content.entrySet()) {
             try {
-                enterValue ( row.get ( "Field" ), row.get ( "Value" ) );
+                enterValue ( row.getKey (), row.getValue () );
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -223,7 +254,15 @@ public class CommonSteps {
     }
 
     public static void clickOnElement(String search_button)  {
+        Page.getCurrent().waitForAngularRequestToComplete();
+        doWhileSpinnerIsPresent();
         Control control = (Control) verifyElementExists(search_button);
+        control.isClickable(5);
+        control.click();
+    }
+
+    public static void clickControl(Control control)  {
+        doWhileSpinnerIsPresent();
         control.click();
     }
 
@@ -267,9 +306,9 @@ public class CommonSteps {
         Page.getCurrent().buildCssControl(gsl).click();
         Page.getCurrent().buildCssControl(gsl).element().clear();
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
+        doThreadSleep(3000);
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
-        doThreadSleep(1000);
-        
+
         Page.getCurrent().buildXpathControl(act).click();
 
         String locator = String.format(locatorPattern,parentTask);
@@ -277,7 +316,7 @@ public class CommonSteps {
         WebElement element = driver.findElement(By.xpath(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         Page.getCurrent().buildXpathControl(locator).click();
-
+        doThreadSleep(2000);
     }
     public static void moveToElement(WebElement webElement) {
         Actions actions = new Actions( Page.getCurrent ().getDriver() );
@@ -288,7 +327,7 @@ public class CommonSteps {
     public static DataTable createDataTable(List<String> raw) {
         return DataTable.create(Collections.singletonList(raw));
     }
-    private static void doThreadSleep(long mils) {
+    public static void doThreadSleep(long mils) {
         try {
             Thread.sleep(mils);
         } catch (InterruptedException e) {
@@ -302,4 +341,5 @@ public class CommonSteps {
     public static void pressEnter(String s) {
         Page.getCurrent().buildXpathControl(s).element().sendKeys(ENTER);
     }
+
 }
