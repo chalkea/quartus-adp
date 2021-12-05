@@ -15,11 +15,11 @@ import static cucumber.steps.CommonSteps.selectTaskFromGlobalSearch;
 @Alias("Employee Information")
 public class EmployeeInformationPage extends Page{
 
-    @Alias("Social Security No")
+    @Alias("Social Security")
     @FindBy(locator = "css=app-metadata-ssn input", excludeFromSearch = false)
     public Edit socialSecurityNo;
 
-    @Alias("Applied for SSN")
+    @Alias("Applied For Ssn")
     @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxAPPLIED_FOR_SSNx8 label", excludeFromSearch = false)
     public Control appliedForSsn;
 
@@ -64,7 +64,7 @@ public class EmployeeInformationPage extends Page{
     public Edit stProv;
 
     @Alias("StProv Search")
-    @FindBy(locator = "css=div[data-popup-uid='VanBaseDropdownInput-1638411361778'] i", excludeFromSearch = false)
+    @FindBy(locator = "xpath=//ent-metadata-input-search//div[@data-popup-uid='VanBaseDropdownInput-1638642402776']//i", excludeFromSearch = false)
     public Control stProvSearch;
 
     @Alias("Postal Zip")
@@ -76,7 +76,7 @@ public class EmployeeInformationPage extends Page{
     public Edit country;
 
     @Alias("Country Search")
-    @FindBy(locator = "css=[data-popup-uid='VanBaseDropdownInput-1638411361779'] i.fa-search", excludeFromSearch = false)
+    @FindBy(locator = "xpath=//ent-metadata-input-search//div[@data-popup-uid='VanBaseDropdownInput-1638642402777']//i[@class='fa fa-search']", excludeFromSearch = false)
     public Control countrySearch;
 
     @Alias("Date of Residence")
@@ -88,8 +88,12 @@ public class EmployeeInformationPage extends Page{
     public Edit county;
 
     @Alias("Phone Type")
+    @FindBy(locator = "xpath=//ent-metadata-input-search//div[@data-popup-uid='VanBaseDropdownInput-1638642402778']//i[@class='fa fa-search']", excludeFromSearch = false)
+    public Control phoneType;
+
+    @Alias("Phone Search")
     @FindBy(locator = "css=[data-popup-uid='VanBaseDropdownInput-1638411361780'] input", excludeFromSearch = false)
-    public Edit phoneType;
+    public Edit phoneSearch;
 
     @Alias("Phone")
     @FindBy(locator = "css=#metadata-form-2__group__JOB_DATAAxPHONEx34  input", excludeFromSearch = false)
@@ -119,6 +123,14 @@ public class EmployeeInformationPage extends Page{
     @FindBy(locator = "xpath=//p[contains(text(), 'You cannot move forward until you have completed everything above.')]", excludeFromSearch = false)
     public Edit errorMessageBottom;
 
+    @Alias("Employee Information link")
+    @FindBy(locator = "xpath=//span[text()='Employee Information']", excludeFromSearch = false)
+    public Control employeeInformationLink;
+
+    @Alias("Personal Demographics link")
+    @FindBy(locator = "xpath=//span[text()='Personal Demographics']", excludeFromSearch = false)
+    public Control demographicsLink;
+
 
     public EmployeeInformationPage(WebDriver driver) { super(driver); }
 
@@ -129,7 +141,7 @@ public class EmployeeInformationPage extends Page{
         String locatorPattern = String.format("//*[contains(@class, 'actity-menu-items')]//a[(text()='%s')]", theTask);
         selectTaskFromGlobalSearch((String) Context.get("parentTask"), theTask, locatorPattern);
         try {
-            PageFactory.init(EmployeeInformationPage.class);
+//            PageFactory.init(EmployeeInformationPage.class);
             CommonSteps.clickOnElement("Ok Button");
         } catch (Exception e) {
             e.printStackTrace();

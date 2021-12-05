@@ -2,11 +2,9 @@ package mvc.view.people.personnelActions.hireEmployee;
 
 import core.Alias;
 import core.Context;
-import cucumber.steps.CommonSteps;
 import org.openqa.selenium.WebDriver;
 import ui.FindBy;
 import ui.Page;
-import ui.PageFactory;
 import ui.controls.Control;
 import ui.controls.Edit;
 
@@ -19,7 +17,7 @@ public class HrInformationHirePage extends Page {
     @FindBy(locator = "css=span.dijitTitlePaneTextNode", excludeFromSearch = false)
     public Control pageTitle;
 
-    @Alias("Empl ID")
+    @Alias("Empl Id")
     @FindBy(locator = "css=input", excludeFromSearch = false)
     public Edit emplId;
 
@@ -28,7 +26,7 @@ public class HrInformationHirePage extends Page {
     public Control labelEmplId;
 
     @Alias("Ok Button")
-    @FindBy(locator = "css=button .button__content", excludeFromSearch = false)
+    @FindBy(locator = "xpath=//span[contains(@class, 'button__content')][text()='Ok']", excludeFromSearch = false)
     public Control buttonOk;
 
     public HrInformationHirePage(WebDriver driver) {
@@ -37,18 +35,15 @@ public class HrInformationHirePage extends Page {
 
     @Override
     public Page navigate() {
+        doGlobalSearchNavigationSequence();
+        Page.setCurrent(this);
+        return this;
+    }
+
+    private void doGlobalSearchNavigationSequence() {
         String theTask = (String) Context.get("theTask");
         theTask = theTask.replaceAll("Hire","\\(Hire\\)");
         String locatorPattern = String.format("//*[contains(@class, 'actity-menu-items')]//a[(text()='%s')]", theTask);
         selectTaskFromGlobalSearch((String) Context.get("parentTask"), theTask, locatorPattern);
-        try {
-            PageFactory.init(HrInformationHirePage.class);
-            CommonSteps.clickOnElement("Ok Button");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Page.setCurrent(this);
-        return this;
     }
 }

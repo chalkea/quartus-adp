@@ -83,11 +83,11 @@ public class CommonStepDefinitions {
     }
 
     @When("I populate current page with the following data:")
-    public void populatePageWithData(List<Map<String, String>> content) throws Exception {
+    public void populatePageWithData(Map<String, String> content) throws Exception {
         enterTextOnPage(content);
     }
 
-    private void enterTextOnPage(List<Map<String, String>> content) throws Exception {
+    private void enterTextOnPage(Map<String, String> content) throws Exception {
         CommonSteps.enterTextIntoMultipleFields(content);
     }
 
