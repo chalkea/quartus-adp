@@ -32,6 +32,7 @@ public class EmployeeInformationController {
     public static final String DATE_OF_RESIDENCE = "Date Of Residence";
     public static final String COUNTY = "County";
     public static final String PHONE_TYPE = "Phone Type";
+    public static final String PHONE_SEARCH = "Phone Search";
     public static final String PHONE = "Phone";
     public static final String EMAIL_BUSINESS = "Email Business";
     public static final String EMAIL_PERSONAL = "Email Personal";
@@ -58,10 +59,13 @@ public class EmployeeInformationController {
             e.printStackTrace();
         }
 
-        CommonSteps.typeAndEnter(employeeInformation.get(SOCIAL_SECURITY), SOCIAL_SECURITY);
+        CommonSteps.typeAndTab(employeeInformation.get(SOCIAL_SECURITY), SOCIAL_SECURITY);
+        CommonSteps.doThreadSleep(5000);
 
         if (employeeInformation.get(APPLIED_FOR_SSN).equalsIgnoreCase(YES))
             CommonSteps.clickOnElement(APPLIED_FOR_SSN);
+        CommonSteps.doThreadSleep(3000);
+
         if (employeeInformation.get(SSN_IS_FEDERAL_EIN).equalsIgnoreCase(YES))
             CommonSteps.clickOnElement(SSN_IS_FEDERAL_EIN);
         if (employeeInformation.get(LOCAL_NATIONAL).equalsIgnoreCase(YES))
@@ -69,6 +73,7 @@ public class EmployeeInformationController {
 
         CommonSteps.typeAndTab(employeeInformation.get(FIRST_NAME), FIRST_NAME);
         CommonSteps.typeAndTab(employeeInformation.get(MIDDLE_NAME), MIDDLE_NAME);
+        CommonSteps.doThreadSleep(2000);
         CommonSteps.typeAndTab(employeeInformation.get(LAST_NAME), LAST_NAME);
         CommonSteps.typeAndTab(employeeInformation.get(NAME_PREFIX), NAME_PREFIX);
 
@@ -83,16 +88,20 @@ public class EmployeeInformationController {
         CommonSteps.typeAndTab(employeeInformation.get(CITY), CITY);
 
         CommonSteps.clickOnElement(ST_PROV_SEARCH);
-        CommonSteps.typeAndEnter(employeeInformation.get(ST_PROV), ST_PROV);
+        CommonSteps.clickOnElement("StProvList");
+        //CommonSteps.typeAndEnter(employeeInformation.get(ST_PROV), ST_PROV);
 
         CommonSteps.typeAndTab(employeeInformation.get(POSTAL_ZIP), POSTAL_ZIP);
         //CommonSteps.typeAndEnter(employeeInformation.get(COUNTRY), COUNTRY);
         CommonSteps.typeAndTab(employeeInformation.get(DATE_OF_RESIDENCE), DATE_OF_RESIDENCE);
+        //CommonSteps.typeAndTab("12/16/1996", DATE_OF_RESIDENCE);
         CommonSteps.typeAndTab(employeeInformation.get(COUNTY), COUNTY);
 
-        CommonSteps.clickOnElement(PHONE_TYPE);
+        CommonSteps.clickOnElement(PHONE_SEARCH);
+        CommonSteps.doThreadSleep(3000);
         String locator = String.format("//span[contains(text(), '%s')]", "CEL1 - Cellular Phone 1");
-        CommonSteps.selectByVisibleText(employeeInformation.get(PHONE_TYPE), By.xpath(locator));
+        Page.getCurrent().getDriver().findElement(By.xpath(locator)).click();
+//        CommonSteps.selectByVisibleText(employeeInformation.get(PHONE_TYPE), By.xpath(locator));
         CommonSteps.typeAndTab(employeeInformation.get(PHONE), PHONE);
 
         CommonSteps.typeAndTab(employeeInformation.get(EMAIL_BUSINESS), EMAIL_BUSINESS);

@@ -119,8 +119,9 @@ public class CommonSteps {
     }
     public static void typeAndTab(String text, String fieldName) {
         try {
+            doThreadSleep(4000);
+            doWhileSpinnerIsPresent();
             Control control = enterValue(text, fieldName);
-            doThreadSleep(3000);
             if (control.getText().isEmpty()) {enterValue(text, fieldName);}
             control.element().sendKeys(TAB);
         } catch (Exception e) {
@@ -138,6 +139,7 @@ public class CommonSteps {
     }
 
     public static Control enterValue(String text, String fieldName) throws Exception {
+        doThreadSleep(2000);
         doWhileSpinnerIsPresent();
         Edit control = (Edit) verifyElementExists(fieldName);
         control.setText(text);

@@ -24,19 +24,19 @@ public class EmployeeInformationPage extends Page{
     public Control appliedForSsn;
 
     @Alias("First Name")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxFIRST_NAMEx13", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxFIRST_NAMEx13", excludeFromSearch = false)
     public Edit firstName;
 
     @Alias("Middle Name")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxMIDDLE_NAMEx14", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxMIDDLE_NAMEx14", excludeFromSearch = false)
     public Edit middleName;
 
     @Alias("Last Name")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxLAST_NAMEx15", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxLAST_NAMEx15", excludeFromSearch = false)
     public Edit lastName;
 
     @Alias("Name Prefix")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxNAME_PREFIXx16", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxNAME_PREFIXx16", excludeFromSearch = false)
     public Edit namePrefix;
 
     @Alias("Alter Derived name")
@@ -44,27 +44,31 @@ public class EmployeeInformationPage extends Page{
     public Control alterDerivedName;
 
     @Alias("Address1")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxSTREET1x20", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxSTREET1x20", excludeFromSearch = false)
     public Edit address1;
 
     @Alias("Address2")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxSTREET2x21", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxSTREET2x21", excludeFromSearch = false)
     public Edit address2;
 
     @Alias("Address3")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxSTREET3x22", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxSTREET3x22", excludeFromSearch = false)
     public Edit address3;
 
     @Alias("City")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxCITYx23", excludeFromSearch = false)
+    @FindBy(locator = "css=input#metadata-form-2__JOB_DATAAxCITYx23", excludeFromSearch = false)
     public Edit city;
 
     @Alias("StProv")
-    @FindBy(locator = "css=[data-popup-uid='VanBaseDropdownInput-1638411361778'", excludeFromSearch = false)
+    @FindBy(locator = "xpath=//ent-search-input[@id='metadata-form-2__JOB_DATAAxSTATEx24']//input", excludeFromSearch = false)
     public Edit stProv;
 
+    @Alias("StProvList")
+    @FindBy(locator = "xpath=//span[text()='AR - Arkansas']", excludeFromSearch = false)
+    public Edit stProvList;
+
     @Alias("StProv Search")
-    @FindBy(locator = "xpath=//ent-metadata-input-search//div[@data-popup-uid='VanBaseDropdownInput-1638642402776']//i", excludeFromSearch = false)
+    @FindBy(locator = "xpath=//ent-search-input[@id='metadata-form-2__JOB_DATAAxSTATEx24']//i", excludeFromSearch = false)
     public Control stProvSearch;
 
     @Alias("Postal Zip")
@@ -79,8 +83,8 @@ public class EmployeeInformationPage extends Page{
     @FindBy(locator = "xpath=//ent-metadata-input-search//div[@data-popup-uid='VanBaseDropdownInput-1638642402777']//i[@class='fa fa-search']", excludeFromSearch = false)
     public Control countrySearch;
 
-    @Alias("Date of Residence")
-    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxRESIDENCE_DTx29  input", excludeFromSearch = false)
+    @Alias("Date Of Residence")
+    @FindBy(locator = "css=#metadata-form-2__JOB_DATAAxRESIDENCE_DTx29 input", excludeFromSearch = false)
     public Edit dateOfResidence;
 
     @Alias("County")
@@ -92,11 +96,11 @@ public class EmployeeInformationPage extends Page{
     public Control phoneType;
 
     @Alias("Phone Search")
-    @FindBy(locator = "css=[data-popup-uid='VanBaseDropdownInput-1638411361780'] input", excludeFromSearch = false)
+    @FindBy(locator = "//ent-search-input[@id='metadata-form-2__JOB_DATAAxPHONE_TYPEx32']//div[@id='testing']//i", excludeFromSearch = false)
     public Edit phoneSearch;
 
     @Alias("Phone")
-    @FindBy(locator = "css=#metadata-form-2__group__JOB_DATAAxPHONEx34  input", excludeFromSearch = false)
+    @FindBy(locator = "xpath=//adp-form-group[@id='metadata-form-2__group__JOB_DATAAxPHONEx34']//input", excludeFromSearch = false)
     public Edit phone;
 
     @Alias("Email Business")

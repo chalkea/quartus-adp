@@ -55,7 +55,7 @@ public class WelcomeToADP extends Page {
         if (Configuration.platform().isWeb())
 
         {
-            this.getDriver().manage().window().setSize(new Dimension(1250, 1250));
+            this.getDriver().manage().window().setSize(new Dimension(1270, 1250));
         }
 
         Page.setCurrent(this);

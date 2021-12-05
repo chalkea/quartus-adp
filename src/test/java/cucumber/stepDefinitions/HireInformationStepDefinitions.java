@@ -15,6 +15,7 @@ public class HireInformationStepDefinitions {
         hrInformationHireController.clickOkButton();
         employeeInformationController.populateEmployeePage();
 
-        EmployeeInformationController.clickOkButton("Submit Button");
+        EmployeeInformationController.clickOkButton("Next Button");
+        EmployeeInformationController.clickOkButton("Employee Information link");
     }
 }
