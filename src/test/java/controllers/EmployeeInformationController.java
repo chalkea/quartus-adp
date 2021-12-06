@@ -60,11 +60,11 @@ public class EmployeeInformationController {
         }
 
         CommonSteps.typeAndTab(employeeInformation.get(SOCIAL_SECURITY), SOCIAL_SECURITY);
-        CommonSteps.doThreadSleep(5000);
+//        CommonSteps.doThreadSleep(5000);
 
         if (employeeInformation.get(APPLIED_FOR_SSN).equalsIgnoreCase(YES))
             CommonSteps.clickOnElement(APPLIED_FOR_SSN);
-        CommonSteps.doThreadSleep(3000);
+//        CommonSteps.doThreadSleep(3000);
 
         if (employeeInformation.get(SSN_IS_FEDERAL_EIN).equalsIgnoreCase(YES))
             CommonSteps.clickOnElement(SSN_IS_FEDERAL_EIN);
@@ -73,7 +73,7 @@ public class EmployeeInformationController {
 
         CommonSteps.typeAndTab(employeeInformation.get(FIRST_NAME), FIRST_NAME);
         CommonSteps.typeAndTab(employeeInformation.get(MIDDLE_NAME), MIDDLE_NAME);
-        CommonSteps.doThreadSleep(2000);
+//        CommonSteps.doThreadSleep(2000);
         CommonSteps.typeAndTab(employeeInformation.get(LAST_NAME), LAST_NAME);
         CommonSteps.typeAndTab(employeeInformation.get(NAME_PREFIX), NAME_PREFIX);
 
@@ -98,7 +98,8 @@ public class EmployeeInformationController {
         CommonSteps.typeAndTab(employeeInformation.get(COUNTY), COUNTY);
 
         CommonSteps.clickOnElement(PHONE_SEARCH);
-        CommonSteps.doThreadSleep(3000);
+//        CommonSteps.doThreadSleep(3000);
+        CommonSteps.doWaitForSearchPromptList();
         String locator = String.format("//span[contains(text(), '%s')]", "CEL1 - Cellular Phone 1");
         Page.getCurrent().getDriver().findElement(By.xpath(locator)).click();
 //        CommonSteps.selectByVisibleText(employeeInformation.get(PHONE_TYPE), By.xpath(locator));

@@ -74,7 +74,7 @@ public class CommonSteps {
 
         String locator = String.format ( "//*[text()='%s' or contains(text(), '%s' )]", client, client);
         Control xpath = getCurrent().buildXpathControl(locator);
-//        doWhileSpinnerIsPresent();
+        doWhileSpinnerIsPresent();
 //        xpath.click();
         clickControl(xpath);
 
@@ -119,7 +119,7 @@ public class CommonSteps {
     }
     public static void typeAndTab(String text, String fieldName) {
         try {
-            doThreadSleep(4000);
+//            doThreadSleep(4000);
             doWhileSpinnerIsPresent();
             Control control = enterValue(text, fieldName);
             if (control.getText().isEmpty()) {enterValue(text, fieldName);}
@@ -133,7 +133,7 @@ public class CommonSteps {
         boolean oneOrMoreSpinnersOnPage = true;
         while (oneOrMoreSpinnersOnPage == true ) {
             List<WebElement> spinnerCount = Page.getCurrent().getDriver()
-                    .findElements(By.xpath("//svg[contains(@class, 'nas-busy-indicator__icon') or contains(@class, 'vdl-busy-indicator__icon')]"));
+                    .findElements(By.xpath("//*[name()='svg' and @class='vdl-busy-indicator__icon'] | //*[name='svg' and @class='nas-busy-indicator__icon']"));
             oneOrMoreSpinnersOnPage = spinnerCount.size() != 0;
         } ////*[contains(@class, 'actity-menu-items')]
     }
@@ -305,9 +305,13 @@ public class CommonSteps {
     public static void selectTaskFromGlobalSearch (String parentTask, String task, String locatorPattern)  {
 
         String gsl = "#toolbarQuickSearchInput";
+        doThreadSleep(3000);
+        doWhileSpinnerIsPresent();
         Page.getCurrent().buildCssControl(gsl).click();
+        doWhileSpinnerIsPresent();
         Page.getCurrent().buildCssControl(gsl).element().clear();
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
+        doWhileSpinnerIsPresent();
         doThreadSleep(3000);
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
 
@@ -344,4 +348,13 @@ public class CommonSteps {
         Page.getCurrent().buildXpathControl(s).element().sendKeys(ENTER);
     }
 
+    public static void doWaitForSearchPromptList() {
+        String locator = "//div[@class='vdl-popup__content van-search-input__popup']//li";
+        List<WebElement> elements = Page.getCurrent().getDriver()
+                .findElements(By.xpath(locator));
+        while (elements.size() < 1) {
+            elements = Page.getCurrent().getDriver()
+                    .findElements(By.xpath(locator));
+        }
+    }
 }

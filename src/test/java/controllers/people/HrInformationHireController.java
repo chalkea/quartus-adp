@@ -12,7 +12,7 @@ public class HrInformationHireController {
 
         try {
             Control control = Page.getCurrent().onPage("Empl Id");
-            boolean pageNotLoded = control.inVisible(30);
+            boolean pageNotLoded = control.inVisible(3);
             while (pageNotLoded) {
                 CommonSteps.doWhileSpinnerIsPresent();
                 pageNotLoded = control.inVisible(3);
