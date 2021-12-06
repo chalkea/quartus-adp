@@ -1,5 +1,8 @@
 package models;
 
+import java.util.Map;
+
 public interface ModelInterface {
-    < T extends Object> T loadData();
+    public Map<String, String> loadData();
+    public String toString();
 }

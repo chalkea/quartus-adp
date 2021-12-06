@@ -5,7 +5,7 @@ import utils.DateUtilities;
 
 import java.util.HashMap;
 
-public class EmployeeInformationModel {
+public class EmployeeInformationModel implements ModelInterface {
     private String socialSecurity;
     private String firstName;
     private String middleName;
@@ -44,7 +44,7 @@ public class EmployeeInformationModel {
         this.emailPersonal = System.getProperty("user.name") + ".testPersonal@adp.com";
     }
 
-    public HashMap<String, String> getEmployeeInfoDataMap() {
+    public HashMap<String, String> loadData() {
         HashMap<String, String> employeeInformation = new HashMap<>();
 
         employeeInformation.put("Social Security", this.socialSecurity);

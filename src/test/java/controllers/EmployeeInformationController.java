@@ -8,7 +8,6 @@ import ui.Page;
 import ui.PageFactory;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class EmployeeInformationController {
 
@@ -50,7 +49,7 @@ public class EmployeeInformationController {
 
     private void populateDataMapForEmployeeInfo() {
         EmployeeInformationModel employeeInformationModel = new EmployeeInformationModel();
-        HashMap<String, String> employeeInformation = employeeInformationModel.getEmployeeInfoDataMap();
+        HashMap<String, String> employeeInformation = employeeInformationModel.loadData();
 
         try {
             Page.setCurrent(PageFactory.init(EmployeeInformationPage.class));
