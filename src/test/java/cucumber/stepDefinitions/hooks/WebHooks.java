@@ -32,10 +32,11 @@ public class WebHooks {
     private String skipBrowserStuff = "no";
     private String sameBrowser;
 
-    public WebHooks () {}
+    public WebHooks() {
+    }
 
     @Before
-    public void beforeScenario ( Scenario scenario ) throws Exception {
+    public void beforeScenario(Scenario scenario) throws Exception {
         sameBrowser = System.getProperty("sameBrowser");
         //
 
@@ -43,7 +44,10 @@ public class WebHooks {
                 && sameBrowser.equalsIgnoreCase("yes")) {
             System.setProperty("byPassLogin", "yes");
             skipBrowserStuff = "yes";
-        } else {System.setProperty("byPassLogin", "no");};
+        } else {
+            System.setProperty("byPassLogin", "no");
+        }
+        ;
 
         switch (skipBrowserStuff) {
             case "yes":
@@ -67,7 +71,10 @@ public class WebHooks {
 
                 Map<String, Object> prefs = new HashMap();
                 if (Configuration.platform().isWeb()) {
-                    Driver.addChromeOptions(browser, options);
+                    if (browser.equalsIgnoreCase("chrome"))
+                        Driver.addChromeOptions(browser, options);
+                    else
+                        Driver.add(browser, cap);
                 } else {
                     cap.setCapability("platformName", "Android");
                     cap.setCapability("deviceName", "Android Emulator");
@@ -79,26 +86,27 @@ public class WebHooks {
     }
 
     @After
-    public void afterScenario (Scenario scenario ) throws Exception {
-        System.out.println(scenario.getName() + "\n" +scenario.getLine());
+    public void afterScenario(Scenario scenario) throws Exception {
+        System.out.println(scenario.getName() + "\n" + scenario.getLine());
         switch (sameBrowser) {
             case "yes":
                 skipBrowserStuff = null;
                 break;
             default:
                 if (scenario.isFailed()) {
-                    Page currentPage = new Page (Driver.current());
+                    Page currentPage = new Page(Driver.current());
                     String fileName = "./target/screenshots/" + currentPage.getClass().getSimpleName()
                             + "-" + new Date().getTime() + ".png";
-                    currentPage.captureScreenShot( fileName );
+                    currentPage.captureScreenShot(fileName);
                 }
                 Driver.current().quit();
         }
     }
+
     @Before("@SqlDb")
-    public void beforeSqlDbScenario (Scenario scenario) {
+    public void beforeSqlDbScenario(Scenario scenario) {
         String connectionString = "jdbc:oracle:thin:@//ehrms-ev6-np-db6.ehrms-db-inp.usea1.scn.aws.adp:1521/e6boaws";
-        RelationalDBFacade relationalDBFacade = new RelationalDBFacade(connectionString,"DBADM","DBADM");
+        RelationalDBFacade relationalDBFacade = new RelationalDBFacade(connectionString, "DBADM", "DBADM");
         Context.put("relationalDBFacade", relationalDBFacade);
         try {
             ResultSet resultSet = relationalDBFacade.selectRecords("select paygroup, count(local_tax_cd)\n" +
@@ -114,18 +122,21 @@ public class WebHooks {
         }
 
     }
+
     @After("@SqlDb")
-    public void afterSqlDbScenario (Scenario scenario) {
+    public void afterSqlDbScenario(Scenario scenario) {
 
     }
+
     @Before("@NoSqlDb")
-    public void beforeNoSqlDbScenario (Scenario scenario) {
+    public void beforeNoSqlDbScenario(Scenario scenario) {
         MongoDBFacade mongoDBFacade = new MongoDBFacade();
-        mongoDBFacade.createCollection(System.getProperty(USER_NAME) + "_" +TEST);
+        mongoDBFacade.createCollection(System.getProperty(USER_NAME) + "_" + TEST);
         Context.put("mongoDBFacade", mongoDBFacade);
     }
+
     @After("@NoSqlDb")
-    public void afterNoSqlDbScenario (Scenario scenario) {
+    public void afterNoSqlDbScenario(Scenario scenario) {
         MongoDBFacade mongoDBFacade = (MongoDBFacade) Context.get("mongoDBFacade");
         mongoDBFacade.dropCollection(System.getProperty(USER_NAME) + "_" + TEST);
     }

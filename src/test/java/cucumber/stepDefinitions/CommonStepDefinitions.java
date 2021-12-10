@@ -1,7 +1,5 @@
 package cucumber.stepDefinitions;
 
-import com.paulhammant.ngwebdriver.NgWebDriver;
-import controls.AdpControl;
 import core.Driver;
 import cucumber.steps.CommonSteps;
 import io.cucumber.datatable.DataTable;
@@ -10,17 +8,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
-import pages.HireEmployee;
 import ui.Page;
-import ui.PageFactory;
 import ui.controls.Control;
 import utils.UrlEnvironmentSetter;
 
-import java.io.IOException;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
