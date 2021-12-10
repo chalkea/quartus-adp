@@ -1,4 +1,4 @@
-package pages;
+package mvc.view.people.personnelActions.hireEmployee;
 
 import core.Alias;
 import org.openqa.selenium.WebDriver;

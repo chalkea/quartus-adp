@@ -1,4 +1,4 @@
-package pages.systemAdmin;
+package mvc.view.systemAdmin;
 
 import core.Alias;
 import org.openqa.selenium.WebDriver;

@@ -1,7 +1,7 @@
 Feature: HR Information (HIRE)
 
   @HrInformationHire
-  Scenario: Relational Error validation for Phone Type and Phone
+  Scenario Outline: Relational Error validation for Phone Type and Phone
     Given Practitioner User is on the "HR Information Hire" page under "Hire Employee"
     And Practitioner enters all employee information and is on the "Additional Rates" page
 
@@ -31,3 +31,13 @@ Feature: HR Information (HIRE)
       | Phone Type is invalid                                                       |
       | You cannot move forward until you have completed everything above. Show me. |
 
+    Examples:
+      | Phone Type              | Phone      | Error Message                                            |
+      |                         | 6015551212 | Phone Type is required when Phone is entered. (1000,601) |
+      |                         | 6015551212 | Phone Type is required when Phone is entered. (1000,601) |
+      |                         | 6015551212 | Phone Type is required when Phone is entered. (1000,601) |
+      | CEL1 - Cellular Phone 1 |            | Phone is required when Phone Type is entered. (1000,601) |
+      | CEL1 - Cellular Phone 1 | 7705551212 |                                                          |
+      | CEL1 - Cellular Phone 1 | 7705551212 |                                                          |
+      | CEL1 - Cellular Phone 1 | 7705551212 |                                                          |
+      | CEL1 - Cellular Phone 1 | 7705551212 |                                                          |

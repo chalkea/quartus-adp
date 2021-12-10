@@ -1,4 +1,4 @@
-package pages;
+package mvc.view;
 
 import core.Alias;
 import org.openqa.selenium.By;

@@ -1,8 +1,7 @@
-package pages.systemAdmin;
+package mvc.view.systemAdmin;
 
 import core.Alias;
 import core.Context;
-import cucumber.steps.CommonSteps;
 import org.openqa.selenium.WebDriver;
 import ui.FindBy;
 import ui.Page;

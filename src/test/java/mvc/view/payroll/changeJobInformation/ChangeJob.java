@@ -1,4 +1,4 @@
-package pages.changeJobInformation;
+package mvc.view.payroll.changeJobInformation;
 
 import core.Alias;
 import cucumber.steps.CommonSteps;

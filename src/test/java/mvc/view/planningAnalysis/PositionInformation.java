@@ -1,4 +1,4 @@
-package pages.planningAnalysis;
+package mvc.view.planningAnalysis;
 
 import core.Alias;
 import org.openqa.selenium.WebDriver;

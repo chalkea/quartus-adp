@@ -1,4 +1,4 @@
-package pages.payroll.payrollCycle.step2EnterPayPeriodInformation;
+package mvc.view.payroll.payrollCycle.step2EnterPayPeriodInformation;
 
 import core.Alias;
 import core.Context;

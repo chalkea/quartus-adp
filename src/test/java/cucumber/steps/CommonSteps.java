@@ -6,7 +6,7 @@ import io.cucumber.datatable.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import pages.EnterpriseHomePage;
+import mvc.view.EnterpriseHomePage;
 import ui.Page;
 import ui.PageFactory;
 import ui.controls.Control;
@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.openqa.selenium.Keys.ENTER;
 import static org.openqa.selenium.Keys.TAB;
 import static ui.Page.getCurrent;
@@ -28,6 +29,8 @@ public class CommonSteps {
     private static EnterpriseHomePage enterpriseHomePage;
     private static Faker faker = Faker.instance();
     private static AdpControl adpControl;
+    private static final String locatorVariable = "//a[@class='nav-item menu-open' or @class='nav-item top' or @class='nav-item menu-open' or @class='nav-item menu-open fade-enter-to']//span[text()='%s' and @class='label']";
+
 
     public static void EnterPersonalDetails() throws Exception {
         String firstName = faker.name().firstName();
@@ -275,54 +278,80 @@ public class CommonSteps {
 
     public static void clickOnLeftNavigationItem(DataTable content) throws Exception {
         List<String> items = content.asList();
-        Page.getCurrent().waitForAngularRequestToComplete();
+//        Page.getCurrent().waitForAngularRequestToComplete();
 
+        doWhileSpinnerIsPresent();
         String locator = "#nas-top-menu > a.bread-crumb.home-crumb > span";
-        Page.getCurrent().buildCssControl(locator).isClickable(15);
+        Page.getCurrent().buildCssControl(locator).isClickable(5);
         Page.getCurrent().buildCssControl(locator).click();
         for (String item : items) {
-
-            Page.getCurrent().waitForAngularRequestToComplete();
-//            locator = String.format ( "//span[normalize-space(text())='%s']", item);
-            locator = String.format ( "//a//span[contains(text(),'%s')][@class='label']", item);
-            WebElement webElement = Page.getCurrent().getDriver().findElement(By.xpath(locator));
-            Control control = null;
-            try {
-                moveToElement(webElement);
-                control = Page.getCurrent()
-                        .buildXpathControl(locator);
-                control.click();
-            } catch (ElementClickInterceptedException e) {
-                control.isClickable(15);
-                control.click();
-            }
-            Thread.sleep(1000);
+            selectLeftNavigationItem(item);
         }
         String fileName = "./target/screenshots/passed/" + Page.getCurrent().getClass().getSimpleName()
                 + "-" + new Date().getTime() + ".png";
         Page.getCurrent().captureScreenShot(fileName);
     }
+
+    public static boolean verifyFieldNotPresent (String itemName) {
+        String locator = String.format ( locatorVariable, itemName);
+        return Page.getCurrent().getDriver().findElements(By.xpath(locator)).size() > 0;
+    }
+    public static void selectLeftNavigationItem(String itemName) {
+        //Return if itemName is blank, empty
+        if (itemName.isEmpty()) {return;}
+        Page.getCurrent().waitForAngularRequestToComplete();
+        boolean supportIconVisible = false;
+        while (!supportIconVisible) {
+            supportIconVisible = Page.getCurrent().getDriver().findElements(By.xpath("//span[@title='Support']")).size() > 0;
+        }
+        doThreadSleep(3000);
+        boolean exists = false;
+        String locator = String.format ( locatorVariable, itemName);
+//        doThreadSleep(20000);
+
+        doWhileSpinnerIsPresent();
+        //Fail test when elements not on page
+        assertTrue("Item Name doesn't exist: " + itemName,Page.getCurrent().getDriver().findElements(By.xpath(locator)).size() > 0);
+        WebElement webElement = Page.getCurrent().getDriver().findElement(By.xpath(locator));
+        Control control = null;
+        try {
+            control = Page.getCurrent()
+                    .buildXpathControl(locator);
+            exists = control.exists(10);
+            moveToElement(webElement);
+            control.isClickable(5);
+            control.click();
+        } catch (ElementClickInterceptedException e) {
+            control.isClickable(5);
+            control.click();
+        }
+    }
+
     public static void selectTaskFromGlobalSearch (String parentTask, String task, String locatorPattern)  {
 
         String gsl = "#toolbarQuickSearchInput";
         doThreadSleep(3000);
-        doWhileSpinnerIsPresent();
+//        doWhileSpinnerIsPresent();
+        Page.getCurrent().buildCssControl(gsl).isClickable(5);
         Page.getCurrent().buildCssControl(gsl).click();
         doWhileSpinnerIsPresent();
+        Page.getCurrent().buildCssControl(gsl).element().isDisplayed();
         Page.getCurrent().buildCssControl(gsl).element().clear();
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
         doWhileSpinnerIsPresent();
-        doThreadSleep(3000);
+//        doThreadSleep(3000);
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
 
+        Page.getCurrent().buildXpathControl(act).isClickable(5);
         Page.getCurrent().buildXpathControl(act).click();
 
         String locator = String.format(locatorPattern,parentTask);
         WebDriver driver = Page.getCurrent().getDriver();
         WebElement element = driver.findElement(By.xpath(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        Page.getCurrent().buildXpathControl(locator).isClickable(5);
         Page.getCurrent().buildXpathControl(locator).click();
-        doThreadSleep(2000);
+//        doThreadSleep(2000);
     }
     public static void moveToElement(WebElement webElement) {
         Actions actions = new Actions( Page.getCurrent ().getDriver() );
