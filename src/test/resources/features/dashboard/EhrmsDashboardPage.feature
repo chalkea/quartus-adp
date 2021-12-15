@@ -30,10 +30,14 @@ Feature: Dashboard and Navigation tests
       | <MENU GROUP> | <MENU NAME> | <BAR NAME> |
     Then User should not see "<ITEM NAME>" in LEFT NAVIGATION MENU
 
-    @TaskRemoval
+    @Smoke
     Examples:
       | MENU GROUP                | MENU NAME                                          | BAR NAME                                       | ITEM NAME                                       |
       | Compensation              | Compensation Reports                               | Reports                                        | Job Grading By Evaluation Points (CMP002)       |
+      | People                    | Personnel Actions                                  |                                                | Review Prior Work Experience                    |
+    @TaskRemoval
+    Examples:
+      | MENU GROUP                | MENU NAME                                          | BAR NAME                                       | ITEM NAME                                       |
       | Compensation              | Compensation Reports                               | Reports                                        | Job Code Table (PER709A)                        |
       | Compensation              | Compensation Reports                               | Reports                                        | Database Audit (PER029)                         |
       | Compensation              | Compensation Reports                               | Reports                                        | Currency Rate Table (PER714)                    |
@@ -46,7 +50,6 @@ Feature: Dashboard and Navigation tests
       | Compensation              | Performance-Based Pay Administration               | Modify Existing Worksheets                     | Add Employee to Worksheets (CMP011)             |
       | People                    | Employee Development (People)                      | Manage Employee Competencies                   | Print Competency Profile (TRN010)               |
       | People                    | Employee Development (People)                      | Manage Employee Competencies                   | Update Suspended KSAs Report (TDUTL008)         |
-      | People                    | Personnel Actions                                  |                                                | Review Prior Work Experience                    |
       | People                    | Reports                                            | People Reports                                 | Competency Profile (TRN010)                     |
       | People                    | Reports                                            | People Reports                                 | Employee Training History Report (TRN004)       |
       | Performance & development | Employee Development (Performance and Development) | Design Career Plan                             | Plan Details                                    |

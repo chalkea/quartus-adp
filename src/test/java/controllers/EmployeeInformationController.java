@@ -2,7 +2,7 @@ package controllers;
 
 import cucumber.steps.CommonSteps;
 import models.EmployeeInformationModel;
-import mvc.view.people.personnelActions.hireEmployee.EmployeeInformationPage;
+import mvc.view.people.personnelActions.hireEmployee.hireInformationHire.EmployeeInformationPage;
 import org.openqa.selenium.By;
 import ui.Page;
 import ui.PageFactory;
