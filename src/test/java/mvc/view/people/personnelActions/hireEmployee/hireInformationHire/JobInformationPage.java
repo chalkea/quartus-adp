@@ -6,7 +6,7 @@ import ui.FindBy;
 import ui.Page;
 import ui.controls.Control;
 
-@Alias("Citizenship I9")
+@Alias("Job Information")
 public class JobInformationPage extends Page {
     public JobInformationPage(WebDriver driver) {
         super(driver);
