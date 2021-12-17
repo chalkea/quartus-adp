@@ -1,4 +1,4 @@
-package controllers.people;
+package mvc.controller.people.personnelActions.hireEmployee;
 
 import com.github.javafaker.Faker;
 import cucumber.steps.CommonSteps;

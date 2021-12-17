@@ -1,4 +1,4 @@
-package models;
+package mvc.model;
 
 import com.github.javafaker.Faker;
 import utils.DateUtilities;
@@ -36,7 +36,7 @@ public class EmployeeInformationModel implements ModelInterface {
         this.stProv = Faker.instance().address().stateAbbr();
         this.postalZip = Faker.instance().address().zipCodeByState(this.stProv).replaceAll("#", Faker.instance().number().digits(1));
         this.country = Faker.instance().address().country();
-        this.dateOfResidence = DateUtilities.adjustDate("dd/MM/yyyy", -180);
+        this.dateOfResidence = DateUtilities.adjustDate("MM/dd/yyyy", -180);
         this.county = "unknown";
         this.phoneType = "CEL1 - Cellular Phone 1";
         this.phone = Faker.instance().phoneNumber().cellPhone();

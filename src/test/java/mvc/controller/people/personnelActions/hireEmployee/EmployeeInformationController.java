@@ -1,7 +1,8 @@
-package controllers;
+package mvc.controller.people.personnelActions.hireEmployee;
 
 import cucumber.steps.CommonSteps;
-import models.EmployeeInformationModel;
+import mvc.controller.ControllerInterface;
+import mvc.model.EmployeeInformationModel;
 import mvc.view.people.personnelActions.hireEmployee.hireInformationHire.EmployeeInformationPage;
 import org.openqa.selenium.By;
 import ui.Page;
@@ -9,7 +10,7 @@ import ui.PageFactory;
 
 import java.util.HashMap;
 
-public class EmployeeInformationController {
+public class EmployeeInformationController implements ControllerInterface {
 
     public static final String SOCIAL_SECURITY = "Social Security";
     public static final String FIRST_NAME = "First Name";
@@ -38,16 +39,11 @@ public class EmployeeInformationController {
     public static final String YES = "yes";
     public static final String ST_PROV_SEARCH = "StProv Search";
 
-    public static void clickOkButton(String button) {
-        CommonSteps.clickOnElement(button);
+    public void click(String element) {
+        CommonSteps.clickOnElement(element);
     }
 
-    public void populateEmployeePage() {
-        populateDataMapForEmployeeInfo();
-    }
-
-
-    private void populateDataMapForEmployeeInfo() {
+    public void populateFromDataModel() {
         EmployeeInformationModel employeeInformationModel = new EmployeeInformationModel();
         HashMap<String, String> employeeInformation = employeeInformationModel.loadData();
 
@@ -107,12 +103,4 @@ public class EmployeeInformationController {
         CommonSteps.typeAndTab(employeeInformation.get(EMAIL_BUSINESS), EMAIL_BUSINESS);
         CommonSteps.typeAndTab(employeeInformation.get(EMAIL_PERSONAL), EMAIL_PERSONAL);
     }
-
-//    private static void initializeEmployeeInformatonPage() {
-//        try {
-//            PageFactory.init(EmployeeInformationPage.class);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
