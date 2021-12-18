@@ -2,7 +2,7 @@ package mvc.controller.people.personnelActions.hireEmployee;
 
 import cucumber.steps.CommonSteps;
 import mvc.controller.ControllerInterface;
-import mvc.model.EmployeeInformationModel;
+import mvc.model.people.personnelActions.hireEmployee.EmployeeInformationModel;
 import mvc.view.people.personnelActions.hireEmployee.hireInformationHire.EmployeeInformationPage;
 import org.openqa.selenium.By;
 import ui.Page;
@@ -47,60 +47,46 @@ public class EmployeeInformationController implements ControllerInterface {
         EmployeeInformationModel employeeInformationModel = new EmployeeInformationModel();
         HashMap<String, String> employeeInformation = employeeInformationModel.loadData();
 
+        initializePage(employeeInformation);
+
+        CommonSteps.typeAndTab(employeeInformation.get(SOCIAL_SECURITY), SOCIAL_SECURITY);
+        if (employeeInformation.get(APPLIED_FOR_SSN).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(APPLIED_FOR_SSN);
+        if (employeeInformation.get(SSN_IS_FEDERAL_EIN).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(SSN_IS_FEDERAL_EIN);
+        if (employeeInformation.get(LOCAL_NATIONAL).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(LOCAL_NATIONAL);
+        CommonSteps.typeAndTab(employeeInformation.get(FIRST_NAME), FIRST_NAME);
+        CommonSteps.typeAndTab(employeeInformation.get(MIDDLE_NAME), MIDDLE_NAME);
+        CommonSteps.typeAndTab(employeeInformation.get(LAST_NAME), LAST_NAME);
+        CommonSteps.typeAndTab(employeeInformation.get(NAME_PREFIX), NAME_PREFIX);
+//        CommonSteps.typeAndTab(employeeInformation.get(NAME_SUFFIX), NAME_SUFFIX);
+        if (employeeInformation.get(ALTER_DERIVED_NAME).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(ALTER_DERIVED_NAME);
+        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_1), ADDRESS_1);
+        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_2), ADDRESS_2);
+        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_3), ADDRESS_3);
+        CommonSteps.typeAndTab(employeeInformation.get(CITY), CITY);
+        CommonSteps.clickOnElement(ST_PROV_SEARCH);
+        CommonSteps.clickOnElement("StProvList");
+        //CommonSteps.typeAndEnter(employeeInformation.get(ST_PROV), ST_PROV);
+        CommonSteps.typeAndTab(employeeInformation.get(POSTAL_ZIP), POSTAL_ZIP);
+        //CommonSteps.typeAndEnter(employeeInformation.get(COUNTRY), COUNTRY);
+        CommonSteps.typeAndTab(employeeInformation.get(DATE_OF_RESIDENCE), DATE_OF_RESIDENCE);
+        //CommonSteps.typeAndTab("12/16/1996", DATE_OF_RESIDENCE);
+        CommonSteps.typeAndTab(employeeInformation.get(COUNTY), COUNTY);
+        CommonSteps.clickOnElement(PHONE_SEARCH);
+        CommonSteps.doWaitForSearchPromptList();
+        String locator = String.format("//span[contains(text(), '%s')]", "CEL1 - Cellular Phone 1");
+        Page.getCurrent().getDriver().findElement(By.xpath(locator)).click();
+//        CommonSteps.selectByVisibleText(employeeInformation.get(PHONE_TYPE), By.xpath(locator));
+        CommonSteps.typeAndTab(employeeInformation.get(PHONE), PHONE);
+        CommonSteps.typeAndTab(employeeInformation.get(EMAIL_BUSINESS), EMAIL_BUSINESS);
+        CommonSteps.typeAndTab(employeeInformation.get(EMAIL_PERSONAL), EMAIL_PERSONAL);
+    }
+
+    public void initializePage(HashMap<String, String> employeeInformation) {
         try {
             Page.setCurrent(PageFactory.init(EmployeeInformationPage.class));
             System.out.println( employeeInformation );
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        CommonSteps.typeAndTab(employeeInformation.get(SOCIAL_SECURITY), SOCIAL_SECURITY);
-//        CommonSteps.doThreadSleep(5000);
-
-        if (employeeInformation.get(APPLIED_FOR_SSN).equalsIgnoreCase(YES))
-            CommonSteps.clickOnElement(APPLIED_FOR_SSN);
-//        CommonSteps.doThreadSleep(3000);
-
-        if (employeeInformation.get(SSN_IS_FEDERAL_EIN).equalsIgnoreCase(YES))
-            CommonSteps.clickOnElement(SSN_IS_FEDERAL_EIN);
-        if (employeeInformation.get(LOCAL_NATIONAL).equalsIgnoreCase(YES))
-            CommonSteps.clickOnElement(LOCAL_NATIONAL);
-
-        CommonSteps.typeAndTab(employeeInformation.get(FIRST_NAME), FIRST_NAME);
-        CommonSteps.typeAndTab(employeeInformation.get(MIDDLE_NAME), MIDDLE_NAME);
-//        CommonSteps.doThreadSleep(2000);
-        CommonSteps.typeAndTab(employeeInformation.get(LAST_NAME), LAST_NAME);
-        CommonSteps.typeAndTab(employeeInformation.get(NAME_PREFIX), NAME_PREFIX);
-
-//        CommonSteps.typeAndTab(employeeInformation.get(NAME_SUFFIX), NAME_SUFFIX);
-
-        if (employeeInformation.get(ALTER_DERIVED_NAME).equalsIgnoreCase(YES))
-            CommonSteps.clickOnElement(ALTER_DERIVED_NAME);
-
-        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_1), ADDRESS_1);
-        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_2), ADDRESS_2);
-        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_3), ADDRESS_3);
-        CommonSteps.typeAndTab(employeeInformation.get(CITY), CITY);
-
-        CommonSteps.clickOnElement(ST_PROV_SEARCH);
-        CommonSteps.clickOnElement("StProvList");
-        //CommonSteps.typeAndEnter(employeeInformation.get(ST_PROV), ST_PROV);
-
-        CommonSteps.typeAndTab(employeeInformation.get(POSTAL_ZIP), POSTAL_ZIP);
-        //CommonSteps.typeAndEnter(employeeInformation.get(COUNTRY), COUNTRY);
-        CommonSteps.typeAndTab(employeeInformation.get(DATE_OF_RESIDENCE), DATE_OF_RESIDENCE);
-        //CommonSteps.typeAndTab("12/16/1996", DATE_OF_RESIDENCE);
-        CommonSteps.typeAndTab(employeeInformation.get(COUNTY), COUNTY);
-
-        CommonSteps.clickOnElement(PHONE_SEARCH);
-//        CommonSteps.doThreadSleep(3000);
-        CommonSteps.doWaitForSearchPromptList();
-        String locator = String.format("//span[contains(text(), '%s')]", "CEL1 - Cellular Phone 1");
-        Page.getCurrent().getDriver().findElement(By.xpath(locator)).click();
-//        CommonSteps.selectByVisibleText(employeeInformation.get(PHONE_TYPE), By.xpath(locator));
-        CommonSteps.typeAndTab(employeeInformation.get(PHONE), PHONE);
-
-        CommonSteps.typeAndTab(employeeInformation.get(EMAIL_BUSINESS), EMAIL_BUSINESS);
-        CommonSteps.typeAndTab(employeeInformation.get(EMAIL_PERSONAL), EMAIL_PERSONAL);
     }
 }

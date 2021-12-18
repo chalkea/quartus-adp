@@ -11,7 +11,7 @@ public class HrInformationHireController {
     public void clickOkButton() {
 
         try {
-            Control control = Page.getCurrent().onPage("Empl Id");
+            Control control = Page.getCurrent().onPage("Empl ID");
             boolean pageNotLoded = control.inVisible(3);
             while (pageNotLoded) {
                 CommonSteps.doWhileSpinnerIsPresent();
@@ -20,7 +20,7 @@ public class HrInformationHireController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Page.getCurrent().buildXpathControl("//span[text()='Ok']").isClickable(15);
         CommonSteps.clickOnElement("Ok Button");
     }
     public void enterEmplId () {

@@ -49,13 +49,11 @@ public class WelcomeToADP extends Page {
 
     @Override
     public Page navigate() {
-//        String environment = System.getProperty("environment");
-//        String baseUrl = System.getProperty("url");
         this.getDriver().get(System.getProperty("url"));
         if (Configuration.platform().isWeb())
 
         {
-            this.getDriver().manage().window().setSize(new Dimension(1270, 1250));
+            this.getDriver().manage().window().setSize(new Dimension(1400, 1400));
         }
 
         Page.setCurrent(this);

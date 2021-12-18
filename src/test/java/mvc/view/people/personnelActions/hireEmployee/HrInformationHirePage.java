@@ -17,7 +17,7 @@ public class HrInformationHirePage extends Page {
     @FindBy(locator = "css=span.dijitTitlePaneTextNode", excludeFromSearch = false)
     public Control pageTitle;
 
-    @Alias("Empl Id")
+    @Alias("Empl ID")
     @FindBy(locator = "css=input", excludeFromSearch = false)
     public Edit emplId;
 

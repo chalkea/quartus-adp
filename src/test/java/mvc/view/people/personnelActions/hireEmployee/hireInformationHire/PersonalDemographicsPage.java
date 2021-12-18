@@ -25,14 +25,14 @@ public class PersonalDemographicsPage extends Page {
         public Control gender;
 
         @Alias("Marital Status")
-        @FindBy(locator = "css=#metadata-form-4__JOB_DATABxMAR_STATUSx5 input", excludeFromSearch = false)
+        @FindBy(locator = "css=#metadata-form-4__JOB_DATABxMAR_STATUSx5 i", excludeFromSearch = false)
         public Control maritalStatus;
 
         @Alias("Marital Status Date")
         @FindBy(locator = "css=#metadata-form-4__JOB_DATABxMAR_STATUS_DTx6 input", excludeFromSearch = false)
         public Control maritalStatusDate;
 
-        @Alias("Birth Date")
+        @Alias("Birthdate")
         @FindBy(locator = "css=#metadata-form-4__JOB_DATABxBIRTHDATEx7 input", excludeFromSearch = false)
         public Control birthDate;
 

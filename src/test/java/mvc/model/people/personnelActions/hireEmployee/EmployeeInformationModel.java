@@ -1,6 +1,7 @@
-package mvc.model;
+package mvc.model.people.personnelActions.hireEmployee;
 
 import com.github.javafaker.Faker;
+import mvc.model.ModelInterface;
 import utils.DateUtilities;
 
 import java.util.HashMap;
