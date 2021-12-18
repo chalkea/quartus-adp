@@ -1,7 +1,7 @@
 package cucumber.stepDefinitions;
 
+import controls.AdpControl;
 import core.Context;
-import cucumber.steps.CommonSteps;
 import io.cucumber.java.en.Given;
 
 public class CheckReverseStepDefinition {
@@ -11,6 +11,6 @@ public class CheckReverseStepDefinition {
         Context.put("theTask", theTask);
         Context.put("parentTask", parentTask);
         commonStepDefinitions.chooseEnvironmentAndLoginApp();
-        CommonSteps.goingTo(theTask);
+        AdpControl.goingTo(theTask);
     }
 }

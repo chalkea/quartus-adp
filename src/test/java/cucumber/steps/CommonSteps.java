@@ -5,23 +5,16 @@ import controls.AdpControl;
 import io.cucumber.datatable.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import mvc.view.EnterpriseHomePage;
 import ui.Page;
 import ui.PageFactory;
 import ui.controls.Control;
-import ui.controls.Edit;
-import ui.controls.SelectList;
 import ui.controls.TableView;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import static junit.framework.TestCase.assertTrue;
-import static org.openqa.selenium.Keys.ENTER;
-import static org.openqa.selenium.Keys.TAB;
 import static ui.Page.getCurrent;
 
 public class CommonSteps {
@@ -48,17 +41,17 @@ public class CommonSteps {
     public static void logoffUser() throws Exception {
         EnterpriseHomePage enterpriseHomePage = PageFactory.init(EnterpriseHomePage.class);
         Page.setCurrent(enterpriseHomePage);
-        doWhileSpinnerIsPresent();
+        AdpControl.doWhileSpinnerIsPresent();
         enterpriseHomePage.leftNavNasUser.click();
-        doWhileSpinnerIsPresent();
+        AdpControl.doWhileSpinnerIsPresent();
         enterpriseHomePage.leftNavLogoff.click();
-        doWhileSpinnerIsPresent();
+        AdpControl.doWhileSpinnerIsPresent();
         getCurrent().getDriver().switchTo().activeElement();
         enterpriseHomePage.btnOk.click();
     }
 
     public static void loginTo(String name) throws Exception {
-        goingTo(name);
+        AdpControl.goingTo(name);
 
         if (System.getProperty("userType").equalsIgnoreCase("adpUser")) {
             enterLoginCredentials();
@@ -80,16 +73,13 @@ public class CommonSteps {
 
         String locator = String.format("//*[text()='%s' or contains(text(), '%s' )]", client, client);
         Control xpath = getCurrent().buildXpathControl(locator);
-        doWhileSpinnerIsPresent();
-//        xpath.click();
-        clickControl(xpath);
+        AdpControl.doWhileSpinnerIsPresent();
+        AdpControl.clickControl(xpath);
 
         String locatorPractitioner = String.format("//*[text()='%s' or contains(text(), '%s' )]", "Practitioner", "Practitioner");
         Control xpathPractitioner = getCurrent().buildXpathControl(locatorPractitioner);
         xpathPractitioner.isClickable(30);
-//        doWhileSpinnerIsPresent();
-//        xpathPractitioner.click();
-        clickControl(xpathPractitioner);
+        AdpControl.clickControl(xpathPractitioner);
     }
 
     private static void enterLoginCredentials() throws Exception {
@@ -98,12 +88,9 @@ public class CommonSteps {
 
         if (user == null || psw == null || user.isEmpty() || psw.isEmpty())
             throw new RuntimeException("Missing credentials for login!\n Please add to runconfiguration.");
-
-        typeAndEnter(user, "User Id");
-        typeAndEnter(psw, "Password");
-
+        AdpControl.typeAndEnter(user, "User Id");
+        AdpControl.typeAndEnter(psw, "Password");
         checkForAuthenticationPrompt();
-
     }
 
     public static void checkForAuthenticationPrompt() {
@@ -132,87 +119,15 @@ public class CommonSteps {
         }
     }
 
-    public static void goingTo(String name) throws Exception {
-        Page target = Page.screen(name);
-        Assert.assertNotNull("Unable to find the '" + name + "' page", target);
-        target.navigate();
-    }
-
     public static void verifyCurrentPage(String name) throws Exception {
         Page target = Page.screen(name);
         Assert.assertTrue("The '" + name + "' screen is not current", target.isCurrent());
         Page.setCurrent(target);
-
-    }
-
-    public static void typeAndEnter(String text, String fieldName) {
-        try {
-            Control control = enterValue(text, fieldName);
-            control.element().sendKeys(ENTER);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void typeAndTab(String text, String fieldName) {
-        try {
-//            doThreadSleep(4000);
-            doWhileSpinnerIsPresent();
-            Control control = enterValue(text, fieldName);
-            if (control.getText().isEmpty()) {
-                enterValue(text, fieldName);
-            }
-            control.element().sendKeys(TAB);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void doWhileSpinnerIsPresent() {
-        boolean oneOrMoreSpinnersOnPage = true;
-        while (oneOrMoreSpinnersOnPage == true) {
-            List<WebElement> spinnerCount = Page.getCurrent().getDriver()
-                    .findElements(By.xpath("//*[name()='svg' and @class='vdl-busy-indicator__icon'] | //*[name='svg' and @class='nas-busy-indicator__icon']"));
-            oneOrMoreSpinnersOnPage = spinnerCount.size() != 0;
-        } ////*[contains(@class, 'actity-menu-items')]
-    }
-
-    public static Control enterValue(String text, String fieldName) throws Exception {
-        doThreadSleep(2000);
-        doWhileSpinnerIsPresent();
-        Edit control = (Edit) verifyElementExists(fieldName);
-        control.setText(text);
-        return control;
-    }
-
-    public static Object verifyElementExists(String fieldName) {
-        Page.getCurrent().waitForAngularRequestToComplete();
-        Control control = null;
-        try {
-            control = getCurrent().onPage(fieldName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Assert.assertNotNull("Unable to find '" + fieldName + "' element on current page", control);
-        Assert.assertTrue("Element '" + fieldName + "' is not available", control.exists());
-        return control;
-    }
-
-    public static Control verifyFieldText(String fieldName, String text) throws Exception {
-        Control control = (Control) verifyElementExists(fieldName);
-        String actualText = control.getText().trim().replaceAll("\n", "");
-        Assert.assertTrue(String.format("The '%s' field has unexpected text. \nExp: '%s', \nGot: '%s'"
-                , fieldName
-                , text
-                , actualText)
-                , text.equals(actualText) || actualText.contains(text));
-        return control;
-
     }
 
     public static void verifyListEmptyState(String list, String emptyState) throws Exception {
         boolean empty = emptyState.trim().equals("");
-        TableView control = (TableView) verifyElementExists(list);
+        TableView control = (TableView) AdpControl.verifyElementExists(list);
         if (empty) {
             Assert.assertTrue("The '" + list + "' is not empty", control.isEmpty());
         } else {
@@ -228,26 +143,20 @@ public class CommonSteps {
                 continue;
             }
             System.out.println(content.get(i).get(0) + " " + content.get(i).get(1));
-            verifyFieldText(content.get(i).get(0).toString(), content.get(i).get(1).toString());
-        }
-    }
-
-    public static void verifyMultipleFieldsExists(List<String> elements) throws Exception {
-        for (String element : elements) {
-            verifyElementExists(element);
+            AdpControl.verifyFieldText(content.get(i).get(0).toString(), content.get(i).get(1).toString());
         }
     }
 
     public static void verifyInputOfMultipleFields(List<Map<String, String>> content) throws Exception {
         for (Map<String, String> row : content) {
-            verifyFieldText(row.get("Field"), row.get("Text"));
+            AdpControl.verifyFieldText(row.get("Field"), row.get("Text"));
         }
     }
 
     public static void enterTextIntoMultipleFields(Map<String, String> content) {
         for (Map.Entry<String, String> row : content.entrySet()) {
             try {
-                enterValue(row.getKey(), row.getValue());
+                AdpControl.enterValue(row.getKey(), row.getValue());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -255,19 +164,16 @@ public class CommonSteps {
     }
 
     public static void verifyTextPresence(String text) {
-        Assert.assertTrue("Unable to find text: '" + text + "'"
-                , getCurrent().isTextPresent(text));
+        Assert.assertTrue("Unable to find text: '" + text + "'", getCurrent().isTextPresent(text));
     }
 
     public static void verifyLabelsAvailability(List<String> elements) throws Exception {
-        for (String element : elements) {
-            verifyElementExists(element);
-        }
+        for (String element : elements) AdpControl.verifyElementExists(element);
     }
 
     public static void verifyListRowData(String firstLast, String list, DataTable data) throws Exception {
         int index = 0;
-        TableView control = (TableView) verifyElementExists(list);
+        TableView control = (TableView) AdpControl.verifyElementExists(list);
         if (firstLast.equals("last")) {
             index = control.getItemsCount() - 1;
         }
@@ -281,48 +187,15 @@ public class CommonSteps {
                         value, control.getSubItem(key, index).getText());
             }
         }
-
-    }
-
-    public static void clickOnSubItem(String firstLast, String item, String list) throws Exception {
-        int index = 0;
-        TableView control = (TableView) verifyElementExists(list);
-        if (firstLast.equals("last")) {
-            index = control.getItemsCount() - 1;
-        }
-        control.getSubItem(item, index).click();
-
-    }
-
-    public static void clickOnElement(String search_button) {
-        Page.getCurrent().waitForAngularRequestToComplete();
-        doWhileSpinnerIsPresent();
-        Control control = (Control) verifyElementExists(search_button);
-        control.isClickable(5);
-        control.click();
-    }
-
-    public static void clickControl(Control control) {
-        doWhileSpinnerIsPresent();
-        control.click();
-    }
-
-    public static void selectByVisibleText(String text, By locator) {
-        SelectList selectList = new SelectList(Page.getCurrent(), locator);
-        selectList.selectByText(text);
     }
 
     public static void clickOnLeftNavigationItem(DataTable content) throws Exception {
         List<String> items = content.asList();
-//        Page.getCurrent().waitForAngularRequestToComplete();
-
-        doWhileSpinnerIsPresent();
+        AdpControl.doWhileSpinnerIsPresent();
         String locator = "#nas-top-menu > a.bread-crumb.home-crumb > span";
         Page.getCurrent().buildCssControl(locator).isClickable(5);
         Page.getCurrent().buildCssControl(locator).click();
-        for (String item : items) {
-            selectLeftNavigationItem(item);
-        }
+        for (String item : items) selectLeftNavigationItem(item);
         String fileName = "./target/screenshots/passed/" + Page.getCurrent().getClass().getSimpleName()
                 + "-" + new Date().getTime() + ".png";
         Page.getCurrent().captureScreenShot(fileName);
@@ -335,20 +208,15 @@ public class CommonSteps {
 
     public static void selectLeftNavigationItem(String itemName) {
         //Return if itemName is blank, empty
-        if (itemName.isEmpty()) {
-            return;
-        }
+        if (itemName.isEmpty()) return;
         Page.getCurrent().waitForAngularRequestToComplete();
         boolean supportIconVisible = false;
-        while (!supportIconVisible) {
-            supportIconVisible = Page.getCurrent().getDriver().findElements(By.xpath("//span[@title='Support']")).size() > 0;
-        }
+        while (!supportIconVisible) supportIconVisible = Page.getCurrent().getDriver().findElements(By.xpath("//span[@title='Support']")).size() > 0;
         doThreadSleep(3000);
         boolean exists = false;
         String locator = String.format(locatorVariable, itemName);
-//        doThreadSleep(20000);
 
-        doWhileSpinnerIsPresent();
+        AdpControl.doWhileSpinnerIsPresent();
         //Fail test when elements not on page
         assertTrue("Item Name doesn't exist: " + itemName, Page.getCurrent().getDriver().findElements(By.xpath(locator)).size() > 0);
         WebElement webElement = Page.getCurrent().getDriver().findElement(By.xpath(locator));
@@ -357,7 +225,7 @@ public class CommonSteps {
             control = Page.getCurrent()
                     .buildXpathControl(locator);
             exists = control.exists(10);
-            moveToElement(webElement);
+            AdpControl.moveToElement(webElement);
             control.isClickable(5);
             control.click();
         } catch (ElementClickInterceptedException e) {
@@ -373,12 +241,11 @@ public class CommonSteps {
 //        doWhileSpinnerIsPresent();
         Page.getCurrent().buildCssControl(gsl).isClickable(5);
         Page.getCurrent().buildCssControl(gsl).click();
-        doWhileSpinnerIsPresent();
+        AdpControl.doWhileSpinnerIsPresent();
         Page.getCurrent().buildCssControl(gsl).element().isDisplayed();
         Page.getCurrent().buildCssControl(gsl).element().clear();
         Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
-        doWhileSpinnerIsPresent();
-//        doThreadSleep(3000);
+        AdpControl.doWhileSpinnerIsPresent();
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
 
         Page.getCurrent().buildXpathControl(act).isClickable(5);
@@ -390,18 +257,9 @@ public class CommonSteps {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         Page.getCurrent().buildXpathControl(locator).isClickable(5);
         Page.getCurrent().buildXpathControl(locator).click();
-//        doThreadSleep(2000);
     }
 
-    public static void moveToElement(WebElement webElement) {
-        Actions actions = new Actions(Page.getCurrent().getDriver());
-        actions.moveToElement((WebElement) webElement);
-        actions.perform();
-    }
-
-    public static DataTable createDataTable(List<String> raw) {
-        return DataTable.create(Collections.singletonList(raw));
-    }
+    public static DataTable createDataTable(List<String> raw) { return DataTable.create(Collections.singletonList(raw)); }
 
     public static void doThreadSleep(long mils) {
         try {
@@ -412,10 +270,6 @@ public class CommonSteps {
 
     public static void selectFromSearchPrompt(String locator) {
         Page.getCurrent().buildXpathControl(locator).click();
-    }
-
-    public static void pressEnter(String s) {
-        Page.getCurrent().buildXpathControl(s).element().sendKeys(ENTER);
     }
 
     public static void doWaitForSearchPromptList() {

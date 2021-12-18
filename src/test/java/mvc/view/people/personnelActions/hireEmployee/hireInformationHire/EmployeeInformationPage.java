@@ -1,12 +1,11 @@
 package mvc.view.people.personnelActions.hireEmployee.hireInformationHire;
 
+import controls.AdpControl;
 import core.Alias;
 import core.Context;
-import cucumber.steps.CommonSteps;
 import org.openqa.selenium.WebDriver;
 import ui.FindBy;
 import ui.Page;
-import ui.PageFactory;
 import ui.controls.Control;
 import ui.controls.Edit;
 
@@ -146,7 +145,7 @@ public class EmployeeInformationPage extends Page{
         selectTaskFromGlobalSearch((String) Context.get("parentTask"), theTask, locatorPattern);
         try {
 //            PageFactory.init(EmployeeInformationPage.class);
-            CommonSteps.clickOnElement("Ok Button");
+            AdpControl.clickOnElement("Ok Button");
         } catch (Exception e) {
             e.printStackTrace();
         }

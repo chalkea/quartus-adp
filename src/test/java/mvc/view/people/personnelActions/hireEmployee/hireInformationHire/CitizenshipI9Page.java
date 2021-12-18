@@ -1,16 +1,18 @@
 package mvc.view.people.personnelActions.hireEmployee.hireInformationHire;
 
 import core.Alias;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import ui.FindBy;
 import ui.Page;
+import ui.PageFactory;
 import ui.controls.Control;
+
+import static controls.AdpControl.clickOnElement;
 
 @Alias("Citizenship I9")
 public class CitizenshipI9Page extends Page {
-    public CitizenshipI9Page(WebDriver driver) {
-        super(driver);
-    }
+    public CitizenshipI9Page(WebDriver driver) { super(driver); }
 
         @Alias("Page Title")
         @FindBy(locator = "css=h1", excludeFromSearch = false)

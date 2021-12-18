@@ -1,5 +1,6 @@
 package cucumber.stepDefinitions;
 
+import controls.AdpControl;
 import core.Driver;
 import cucumber.steps.CommonSteps;
 import io.cucumber.datatable.DataTable;
@@ -23,7 +24,7 @@ public class CommonStepDefinitions {
 
     @Then("I should see the following fields are shown:")
     public void verifyMultipleFieldsAvailability(List<String> elements) throws Exception {
-        CommonSteps.verifyMultipleFieldsExists(elements);
+        AdpControl.verifyMultipleFieldsExists(elements);
     }
 
     @Then("I have the following text on the page")
@@ -55,7 +56,7 @@ public class CommonStepDefinitions {
     @Given("(the logged in user automatically navigates to)/(I am on the) {string} page/screen")
     @When("(I)/(a New user) goes/go to the {string} page/screen")
     public void navigateToPage(String name) throws Exception {
-        CommonSteps.goingTo(name);
+        AdpControl.goingTo(name);
     }
 
     @When("I click/tap on the {string} button/element/control")
@@ -67,7 +68,7 @@ public class CommonStepDefinitions {
 
     @When("I enter {string} into the {string} field")
     public void enterValue(String text, String fieldName) throws Exception {
-        CommonSteps.enterValue(text, fieldName);
+        AdpControl.enterValue(text, fieldName);
     }
 
     @When("I accept the alert message")
@@ -86,7 +87,7 @@ public class CommonStepDefinitions {
 
     @Then("I should see the {string} field is available/present")
     public Control verifyElementExists(String fieldName) throws Exception {
-        return (Control) CommonSteps.verifyElementExists(fieldName);
+        return (Control) AdpControl.verifyElementExists(fieldName);
     }
 
     @And("I should see the {string} field is available/present on {string} page")
@@ -103,7 +104,7 @@ public class CommonStepDefinitions {
 
     @Then("I should see | the {string} field contains the {string} text")
     public Control verifyFieldText(String fieldName, String text) throws Exception {
-        return CommonSteps.verifyFieldText(fieldName, text);
+        return AdpControl.verifyFieldText(fieldName, text);
     }
 
     @Then("I should see the {string} text is shown")
@@ -129,7 +130,7 @@ public class CommonStepDefinitions {
 
     @When("/(I |)(click|tap)/ on the (first|last) {string} element of the {string} (list|table)")
     public void clickOnSubItem(String firstLast, String item, String list) throws Exception {
-        CommonSteps.clickOnSubItem(firstLast, item, list);
+        AdpControl.clickOnSubItem(firstLast, item, list);
     }
 
     @When("(New/the) user navigates to {string}")
@@ -160,10 +161,10 @@ public class CommonStepDefinitions {
 
     @And("Practitioner enters {string} into the {string} and select value from search prompt")
     public void practitionerEntersIntoTheAndSelectValueFromSearchPrompt(String value, String field) throws Exception {
-        CommonSteps.enterValue(value, field);
+        AdpControl.enterValue(value, field);
         CommonSteps.selectFromSearchPrompt("//span[contains(text(), 'N1234')]");
-        CommonSteps.clickOnElement("Search Button");
-        CommonSteps.clickOnElement("Highest Access Checkbox");
-        CommonSteps.clickOnElement("Save Button");
+        AdpControl.clickOnElement("Search Button");
+        AdpControl.clickOnElement("Highest Access Checkbox");
+        AdpControl.clickOnElement("Save Button");
     }
 }

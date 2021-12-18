@@ -2,6 +2,7 @@ package mvc.view.people.personnelActions.hireEmployee;
 
 import core.Alias;
 import core.Context;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import ui.FindBy;
 import ui.Page;
@@ -44,6 +45,8 @@ public class HrInformationHirePage extends Page {
         String theTask = (String) Context.get("theTask");
         theTask = theTask.replaceAll("Hire","\\(Hire\\)");
         String locatorPattern = String.format("//*[contains(@class, 'actity-menu-items')]//a[(text()='%s')]", theTask);
+//        Page.getCurrent().buildCssControl("#metadata-form-4__JOB_DATABxBIRTHDATEx7 input").isClickable(5);
+//        Page.getCurrent().buildCssControl("#metadata-form-4__JOB_DATABxBIRTHDATEx7 input").element().sendKeys(Keys.TAB);
         selectTaskFromGlobalSearch((String) Context.get("parentTask"), theTask, locatorPattern);
     }
 }

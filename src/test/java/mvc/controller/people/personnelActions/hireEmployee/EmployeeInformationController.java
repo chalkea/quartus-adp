@@ -1,5 +1,6 @@
 package mvc.controller.people.personnelActions.hireEmployee;
 
+import controls.AdpControl;
 import cucumber.steps.CommonSteps;
 import mvc.controller.ControllerInterface;
 import mvc.model.people.personnelActions.hireEmployee.EmployeeInformationModel;
@@ -7,7 +8,6 @@ import mvc.view.people.personnelActions.hireEmployee.hireInformationHire.Employe
 import org.openqa.selenium.By;
 import ui.Page;
 import ui.PageFactory;
-
 import java.util.HashMap;
 
 public class EmployeeInformationController implements ControllerInterface {
@@ -40,51 +40,66 @@ public class EmployeeInformationController implements ControllerInterface {
     public static final String ST_PROV_SEARCH = "StProv Search";
 
     public void click(String element) {
-        CommonSteps.clickOnElement(element);
+        AdpControl.clickOnElement(element);
     }
 
     public void populateFromDataModel() {
         EmployeeInformationModel employeeInformationModel = new EmployeeInformationModel();
         HashMap<String, String> employeeInformation = employeeInformationModel.loadData();
+        initializePage();
+        System.out.println( employeeInformation );
+        enterIdentityInfo(employeeInformation);
+        enterNameInfo(employeeInformation);
+        enterAddressInfo(employeeInformation);
+        enterAndSelectContactInfo(employeeInformation);
+    }
 
-        initializePage(employeeInformation);
-
-        CommonSteps.typeAndTab(employeeInformation.get(SOCIAL_SECURITY), SOCIAL_SECURITY);
-        if (employeeInformation.get(APPLIED_FOR_SSN).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(APPLIED_FOR_SSN);
-        if (employeeInformation.get(SSN_IS_FEDERAL_EIN).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(SSN_IS_FEDERAL_EIN);
-        if (employeeInformation.get(LOCAL_NATIONAL).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(LOCAL_NATIONAL);
-        CommonSteps.typeAndTab(employeeInformation.get(FIRST_NAME), FIRST_NAME);
-        CommonSteps.typeAndTab(employeeInformation.get(MIDDLE_NAME), MIDDLE_NAME);
-        CommonSteps.typeAndTab(employeeInformation.get(LAST_NAME), LAST_NAME);
-        CommonSteps.typeAndTab(employeeInformation.get(NAME_PREFIX), NAME_PREFIX);
-//        CommonSteps.typeAndTab(employeeInformation.get(NAME_SUFFIX), NAME_SUFFIX);
-        if (employeeInformation.get(ALTER_DERIVED_NAME).equalsIgnoreCase(YES)) CommonSteps.clickOnElement(ALTER_DERIVED_NAME);
-        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_1), ADDRESS_1);
-        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_2), ADDRESS_2);
-        CommonSteps.typeAndTab(employeeInformation.get(ADDRESS_3), ADDRESS_3);
-        CommonSteps.typeAndTab(employeeInformation.get(CITY), CITY);
-        CommonSteps.clickOnElement(ST_PROV_SEARCH);
-        CommonSteps.clickOnElement("StProvList");
-        //CommonSteps.typeAndEnter(employeeInformation.get(ST_PROV), ST_PROV);
-        CommonSteps.typeAndTab(employeeInformation.get(POSTAL_ZIP), POSTAL_ZIP);
-        //CommonSteps.typeAndEnter(employeeInformation.get(COUNTRY), COUNTRY);
-        CommonSteps.typeAndTab(employeeInformation.get(DATE_OF_RESIDENCE), DATE_OF_RESIDENCE);
-        //CommonSteps.typeAndTab("12/16/1996", DATE_OF_RESIDENCE);
-        CommonSteps.typeAndTab(employeeInformation.get(COUNTY), COUNTY);
-        CommonSteps.clickOnElement(PHONE_SEARCH);
+    private void enterAndSelectContactInfo(HashMap<String, String> employeeInformation) {
+        AdpControl.clickOnElement(PHONE_SEARCH);
         CommonSteps.doWaitForSearchPromptList();
         String locator = String.format("//span[contains(text(), '%s')]", "CEL1 - Cellular Phone 1");
         Page.getCurrent().getDriver().findElement(By.xpath(locator)).click();
 //        CommonSteps.selectByVisibleText(employeeInformation.get(PHONE_TYPE), By.xpath(locator));
-        CommonSteps.typeAndTab(employeeInformation.get(PHONE), PHONE);
-        CommonSteps.typeAndTab(employeeInformation.get(EMAIL_BUSINESS), EMAIL_BUSINESS);
-        CommonSteps.typeAndTab(employeeInformation.get(EMAIL_PERSONAL), EMAIL_PERSONAL);
+        AdpControl.typeAndTab(employeeInformation.get(PHONE), PHONE);
+        AdpControl.typeAndTab(employeeInformation.get(EMAIL_BUSINESS), EMAIL_BUSINESS);
+        AdpControl.typeAndTab(employeeInformation.get(EMAIL_PERSONAL), EMAIL_PERSONAL);
     }
 
-    public void initializePage(HashMap<String, String> employeeInformation) {
+    private void enterAddressInfo(HashMap<String, String> employeeInformation) {
+        AdpControl.typeAndTab(employeeInformation.get(ADDRESS_1), ADDRESS_1);
+        AdpControl.typeAndTab(employeeInformation.get(ADDRESS_2), ADDRESS_2);
+        AdpControl.typeAndTab(employeeInformation.get(ADDRESS_3), ADDRESS_3);
+        AdpControl.typeAndTab(employeeInformation.get(CITY), CITY);
+        AdpControl.clickOnElement(ST_PROV_SEARCH);
+        AdpControl.clickOnElement("StProvList");
+        //CommonSteps.typeAndEnter(employeeInformation.get(ST_PROV), ST_PROV);
+        AdpControl.typeAndTab(employeeInformation.get(POSTAL_ZIP), POSTAL_ZIP);
+        //CommonSteps.typeAndEnter(employeeInformation.get(COUNTRY), COUNTRY);
+        AdpControl.typeAndTab(employeeInformation.get(DATE_OF_RESIDENCE), DATE_OF_RESIDENCE);
+        //CommonSteps.typeAndTab("12/16/1996", DATE_OF_RESIDENCE);
+        AdpControl.typeAndTab(employeeInformation.get(COUNTY), COUNTY);
+    }
+
+    private void enterNameInfo(HashMap<String, String> employeeInformation) {
+        AdpControl.typeAndTab(employeeInformation.get(FIRST_NAME), FIRST_NAME);
+        AdpControl.typeAndTab(employeeInformation.get(MIDDLE_NAME), MIDDLE_NAME);
+        AdpControl.typeAndTab(employeeInformation.get(LAST_NAME), LAST_NAME);
+        AdpControl.typeAndTab(employeeInformation.get(NAME_PREFIX), NAME_PREFIX);
+//        CommonSteps.typeAndTab(employeeInformation.get(NAME_SUFFIX), NAME_SUFFIX);
+        if (employeeInformation.get(ALTER_DERIVED_NAME).equalsIgnoreCase(YES)) AdpControl.clickOnElement(ALTER_DERIVED_NAME);
+    }
+
+    private void enterIdentityInfo(HashMap<String, String> employeeInformation) {
+        AdpControl.typeAndTab(employeeInformation.get(SOCIAL_SECURITY), SOCIAL_SECURITY);
+        if (employeeInformation.get(APPLIED_FOR_SSN).equalsIgnoreCase(YES)) AdpControl.clickOnElement(APPLIED_FOR_SSN);
+        if (employeeInformation.get(SSN_IS_FEDERAL_EIN).equalsIgnoreCase(YES)) AdpControl.clickOnElement(SSN_IS_FEDERAL_EIN);
+        if (employeeInformation.get(LOCAL_NATIONAL).equalsIgnoreCase(YES)) AdpControl.clickOnElement(LOCAL_NATIONAL);
+    }
+
+    @Override
+    public void initializePage() {
         try {
             Page.setCurrent(PageFactory.init(EmployeeInformationPage.class));
-            System.out.println( employeeInformation );
         } catch (Exception e) {
             e.printStackTrace();
         }

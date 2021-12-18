@@ -1,6 +1,6 @@
 package mvc.controller.people.personnelActions.hireEmployee;
 
-import cucumber.steps.CommonSteps;
+import controls.AdpControl;
 import mvc.controller.ControllerInterface;
 import mvc.model.people.personnelActions.hireEmployee.PersonalDemographicsModel;
 import mvc.view.people.personnelActions.hireEmployee.hireInformationHire.PersonalDemographicsPage;
@@ -9,6 +9,8 @@ import ui.Page;
 import ui.PageFactory;
 
 import java.util.Map;
+
+import static controls.AdpControl.*;
 
 public class PersonalDemographicsController implements ControllerInterface {
     public static final String RACE_ETHNICITY = "Race Ethnicity";
@@ -29,28 +31,38 @@ public class PersonalDemographicsController implements ControllerInterface {
 
     @Override
     public void click(String element) {
-        CommonSteps.clickOnElement(element);
+        clickOnElement(element);
     }
 
     @Override
     public void populateFromDataModel() {
-        initialPage();
-        CommonSteps.clickOnElement(GENDER);
-        String locator = String.format("//span[text()='%s']", personalDemograpchicsInfo.get(GENDER));
-        Page.getCurrent().buildXpathControl(locator).click();
+        initializePage();
+        selectGender();
+        selectMaritalStatus();
+        enterBirthDate();
 
-        CommonSteps.clickOnElement(MARITAL_STATUS);
-        locator = String.format("//span[text()='%s']", personalDemograpchicsInfo.get(MARITAL_STATUS));
-        Page.getCurrent().buildXpathControl(locator).click();
-
-        Page.getCurrent().buildCssControl("#metadata-form-4__JOB_DATABxBIRTHDATEx7 input").element().sendKeys("11/25/2021");
-        Page.getCurrent().buildCssControl("#metadata-form-4__JOB_DATABxBIRTHDATEx7 input").element().sendKeys(Keys.TAB);
-
-//        CommonSteps.typeAndTab(personalDemograpchicsInfo.get(BIRTH_DATE), BIRTH_DATE);
         System.out.println(personalDemograpchicsInfo);
     }
 
-    private void initialPage() {
+    private void enterBirthDate() {
+        Page.getCurrent().buildCssControl("#metadata-form-4__JOB_DATABxBIRTHDATEx7 input").element().sendKeys(personalDemograpchicsInfo.get(BIRTH_DATE));
+        Page.getCurrent().buildCssControl("#metadata-form-4__JOB_DATABxBIRTHDATEx7 input").element().sendKeys(Keys.TAB);
+    }
+
+    private void selectMaritalStatus() {
+        String locator;
+        clickOnElement(MARITAL_STATUS);
+        locator = String.format("//span[text()='%s']", personalDemograpchicsInfo.get(MARITAL_STATUS));
+        Page.getCurrent().buildXpathControl(locator).click();
+    }
+
+    private void selectGender() {
+        clickOnElement(GENDER);
+        String locator = String.format("//span[text()='%s']", personalDemograpchicsInfo.get(GENDER));
+        Page.getCurrent().buildXpathControl(locator).click();
+    }
+
+    public void initializePage() {
         try {
             Page.setCurrent(PageFactory.init(PersonalDemographicsPage.class));
         } catch (Exception e) {
