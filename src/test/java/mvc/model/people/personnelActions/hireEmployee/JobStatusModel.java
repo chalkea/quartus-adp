@@ -7,101 +7,135 @@ import utils.DateUtilities;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersonalDemographicsModel implements ModelInterface {
-    private String raceEthnicity;
-    private String gender;
-    private String maritalStatus;
-    private String maritalStatusDate;
-    private String birthdate;
-    private String highestEducLevel;
-    private String retireeBillingMethod;
-    private String medicareDate;
-    private String disabled;
-    private String dischargeDt;
-    private String statusVets4212;
-    private String statusVets4212CheckBox;
-    private String statusVets100;
-    private String statusVets100CheckBox;
+public class JobStatusModel implements ModelInterface {
+    private String effectiveDate;
+    private String current;
+    private String effectiveDateSequence;
+    private String employeeStatus;
+    private String action;
+    private String actionDate;
+    private String reasonCode;
+    private String primaryJob;
+    private String contractJob;
+    private String position;
+    private String positionEntryDate;
+    private String overridePositionData;
+    private String updatedByPosition;
+    private String department;
+    private String departmentEntryDate;
+    private String jobCode;
+    private String jobEntryDate;
+    private String reportTo;
+    private String timeInJob;
 
-    public PersonalDemographicsModel() {
-        this.gender = Faker.instance().demographic().sex();
-        this.maritalStatus = Faker.instance().demographic().maritalStatus();
-        this.birthdate = DateUtilities.adjustDate("MM/dd/yyyy", -7665);
+    public JobStatusModel() {
+        this.action = "Hire";
     }
 
     @Override
     public Map<String, String> loadData() {
-        HashMap<String, String> personalDemographicsData = new HashMap<>();
+        HashMap<String, String> jobStatusData = new HashMap<>();
 
-        personalDemographicsData.put("Gender", this.gender);
-        personalDemographicsData.put("Marital Status", this.maritalStatus);
-        personalDemographicsData.put("Birthdate", this.birthdate);
-
-        return personalDemographicsData;
+        jobStatusData.put("Action", this.action);
+        return jobStatusData;
     }
 
     @Override
     public String toString() {
-        String personalDemographics =
-                "\nGender: " + this.gender
-                        + "\nMarital Status: " + this.maritalStatus
-                        + "\nBirthday: " + this.birthdate;
-        return personalDemographics;
+        String jobStatusInfo =
+                          "\nEffective Date: " + this.effectiveDate
+                        + "\nCurrent: " + this.current
+                        + "\nEffective Date Sequence No.: " + this.effectiveDateSequence
+                        + "\nEmployee Status: " + this.employeeStatus
+                        + "\nAction: " + this.action
+                        + "\nAction Date: " + this.actionDate
+                        + "\nReason Code: " + this.reasonCode
+                        + "\nPrimary Job: " + this.primaryJob
+                        + "\nContract Job: " + this.contractJob
+                        + "\nPosition: " + this.position
+                        + "\nPosition Entry Date: " + this.positionEntryDate
+                        + "\nOverride Position Data: " + this.overridePositionData
+                        + "\nUpdate by Position: " + this.updatedByPosition
+                        + "\nDepartment: " + this.department
+                        + "\nDepartment Entry Date: " + this.departmentEntryDate
+                        + "\nJob Code: " + this.jobCode
+                        + "\nJob Entry Date: " + this.jobEntryDate
+                        + "\nReport To: " + this.reportTo
+                        + "\nTime in Job: " + this.timeInJob
+                ;
+        return jobStatusInfo;
     }
 
-    public String getRaceEthnicity() { return raceEthnicity; }
+    public String getEffectiveDate() { return effectiveDate; }
 
-    public void setRaceEthnicity(String raceEthnicity) { this.raceEthnicity = raceEthnicity; }
+    public String getCurrent() { return current; }
 
-    public String getGender() { return gender; }
+    public String getEffectiveDateSequence() { return effectiveDateSequence; }
 
-    public void setGender(String gender) { this.gender = gender; }
+    public String getEmployeeStatus() { return employeeStatus; }
 
-    public String getMaritalStatus() { return maritalStatus; }
+    public String getAction() { return action; }
 
-    public void setMaritalStatus(String maritalStatus) { this.maritalStatus = maritalStatus; }
+    public String getActionDate() { return actionDate; }
 
-    public String getMaritalStatusDate() { return maritalStatusDate; }
+    public String getReasonCode() { return reasonCode; }
 
-    public void setMaritalStatusDate(String maritalStatusDate) { this.maritalStatusDate = maritalStatusDate; }
+    public String getPrimaryJob() { return primaryJob; }
 
-    public String getBirthdate() { return birthdate; }
+    public String getContractJob() { return contractJob; }
 
-    public void setBirthdate(String birthdate) { this.birthdate = birthdate; }
+    public String getPosition() { return position; }
 
-    public String getHighestEducLevel() { return highestEducLevel; }
+    public String getPositionEntryDate() { return positionEntryDate; }
 
-    public void setHighestEducLevel(String highestEducLevel) { this.highestEducLevel = highestEducLevel; }
+    public String getOverridePositionData() { return overridePositionData; }
 
-    public String getRetireeBillingMethod() { return retireeBillingMethod; }
+    public String getUpdatedByPosition() { return updatedByPosition; }
 
-    public void setRetireeBillingMethod(String retireeBillingMethod) { this.retireeBillingMethod = retireeBillingMethod; }
+    public String getDepartment() { return department; }
 
-    public String getMedicareDate() { return medicareDate; }
+    public String getDepartmentEntryDate() { return departmentEntryDate; }
 
-    public void setMedicareDate(String medicareDate) { this.medicareDate = medicareDate; }
+    public String getJobCode() { return jobCode; }
 
-    public String getDisabled() { return disabled; }
+    public String getJobEntryDate() { return jobEntryDate; }
 
-    public void setDisabled(String disabled) { this.disabled = disabled; }
+    public String getReportTo() { return reportTo; }
 
-    public String getDischargeDt() { return dischargeDt; }
+    public String getTimeInJob() { return timeInJob; }
 
-    public void setDischargeDt(String dischargeDt) { this.dischargeDt = dischargeDt; }
+    public void setEffectiveDate(String effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
 
-    public String getStatusVets4212() { return statusVets4212; }
 
-    public void setStatusVets4212(String statusVets4212) { this.statusVets4212 = statusVets4212; }
+    public void setEffectiveDateSequence(String effectiveDateSequence) { this.effectiveDateSequence = effectiveDateSequence; }
 
-    public String getStatusVets4212CheckBox() { return statusVets4212CheckBox; }
+    public void setAction(String action) { this.action = action; }
 
-    public void setStatusVets4212CheckBox(String statusVets4212CheckBox) { this.statusVets4212CheckBox = statusVets4212CheckBox; }
+    public void setReasonCode(String reasonCode) { this.reasonCode = reasonCode; }
 
-    public String getStatusVets100() { return statusVets100; }
+    public void setPrimaryJob(String primaryJob) { this.primaryJob = primaryJob; }
 
-    public void setStatusVets100(String statusVets100) { this.statusVets100 = statusVets100; }
+    public void setContractJob(String contractJob) { this.contractJob = contractJob; }
 
-    public String getStatusVets100CheckBox() { return statusVets100CheckBox; }
+    public void setPosition(String position) { this.position = position; }
 
-    public void setStatusVets100CheckBox(String statusVets100CheckBox) { this.statusVets100CheckBox = statusVets100CheckBox; }
+    public void setPositionEntryDate(String positionEntryDate) { this.positionEntryDate = positionEntryDate; }
+
+    public void setOverridePositionData(String overridePositionData) { this.overridePositionData = overridePositionData; }
+
+    public void setUpdatedByPosition(String updatedByPosition) { this.updatedByPosition = updatedByPosition; }
+
+    public void setDepartment(String department) { this.department = department; }
+
+    public void setDepartmentEntryDate(String departmentEntryDate) { this.departmentEntryDate = departmentEntryDate; }
+
+    public void setJobCode(String jobCode) { this.jobCode = jobCode; }
+
+    public void setJobEntryDate(String jobEntryDate) { this.jobEntryDate = jobEntryDate; }
+
+    public void setReportTo(String reportTo) { this.reportTo = reportTo; }
+
+    public void setTimeInJob(String timeInJob) { this.timeInJob = timeInJob; }
 }

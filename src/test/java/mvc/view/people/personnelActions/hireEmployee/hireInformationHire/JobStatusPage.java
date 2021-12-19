@@ -25,8 +25,16 @@ public class JobStatusPage extends Page {
         public Control effectiveDateSequence;
 
         @Alias("Action")
-        @FindBy(locator = "css=#metadata-form-16__JOB_DATA1xACTIONx19 input", excludeFromSearch = false)
+        @FindBy(locator = "xpath=//*[contains(@id, 'JOB_DATA1xACTIONx19')]//*/input", excludeFromSearch = false)
         public Control action;
+
+        @Alias("Action X")
+        @FindBy(locator = "xpath=//*[contains(@id, 'JOB_DATA1xACTIONx19')]//*[name()='i'][2]", excludeFromSearch = false)
+        public Control actionX;
+
+        @Alias("Action Arrow")
+        @FindBy(locator = "xpath=//*[contains(@id, 'JOB_DATA1xACTIONx19')]//*[name()='i'][1]", excludeFromSearch = false)
+        public Control actionArrow;
 
         @Alias("Reason Code")
         @FindBy(locator = "css=#metadata-form-16__JOB_DATA1xACTION_REASONx23 input", excludeFromSearch = false)
@@ -37,12 +45,20 @@ public class JobStatusPage extends Page {
         public Control position;
 
         @Alias("Department")
-        @FindBy(locator = "css=#metadata-form-16__JOB_DATA1xPOSITION_NBRx28 input", excludeFromSearch = false)
+        @FindBy(locator = "xpath=//*[contains(@id, 'JOB_DATA1xDEPTID')]//*/input", excludeFromSearch = false)
         public Control department;
 
+        @Alias("Department Search")
+        @FindBy(locator = "xpath=//*[contains(@id, 'JOB_DATA1xDEPTID')]//*/i", excludeFromSearch = false)
+        public Control departmentSearch;
+
         @Alias("Job Code")
-        @FindBy(locator = "css=#metadata-form-16__JOB_DATA1xJOBCODEx37 input", excludeFromSearch = false)
+        @FindBy(locator = "xpath=//*[contains(@id, 'JOB_DATA1xJOBCODE')]//*/input", excludeFromSearch = false)
         public Control jobCode;
+
+        @Alias("Job Code Search")
+        @FindBy(locator = "xpath=//*[contains(@id, 'JOB_DATA1xJOBCODE')]//*/i", excludeFromSearch = false)
+        public Control jobCodeSearch;
 
         @Alias("Reports To")
         @FindBy(locator = "css=#metadata-form-16__JOB_DATA1xREPORTS_TO_IDx40 input", excludeFromSearch = false)

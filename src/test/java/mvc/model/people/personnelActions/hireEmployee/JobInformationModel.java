@@ -1,43 +1,31 @@
 package mvc.model.people.personnelActions.hireEmployee;
 
-import com.github.javafaker.Faker;
 import mvc.model.ModelInterface;
-import utils.DateUtilities;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class JobStatusModel implements ModelInterface {
+public class JobInformationModel implements ModelInterface {
     private String effectiveDate;
     private String current;
     private String effectiveDateSequence;
-    private String employeeStatus;
     private String action;
-    private String actionDate;
-    private String reasonCode;
-    private String primaryJob;
-    private String contractJob;
-    private String position;
-    private String positionEntryDate;
-    private String overridePositionData;
-    private String updatedByPosition;
-    private String department;
-    private String departmentEntryDate;
-    private String jobCode;
-    private String jobEntryDate;
-    private String reportTo;
-    private String timeInJob;
-
-    public JobStatusModel() {
-        this.action = "Hire";
-    }
+    private String reason;
+    private String standHours;
+    private String fte;
+    private String employeeClass;
+    private String eeoExclusion;
+    private String flsaStatus;
+    private String officerCode;
+    private String fullPartTime;
+    private String regularTemporary;
+    private String workersCompCd;
 
     @Override
     public Map<String, String> loadData() {
-        HashMap<String, String> jobStatusData = new HashMap<>();
+        HashMap<String, String> jobInformationData = new HashMap<>();
 
-        jobStatusData.put("Action", this.action);
-        return jobStatusData;
+        return jobInformationData;
     }
 
     @Override
@@ -46,22 +34,17 @@ public class JobStatusModel implements ModelInterface {
                           "\nEffective Date: " + this.effectiveDate
                         + "\nCurrent: " + this.current
                         + "\nEffective Date Sequence No.: " + this.effectiveDateSequence
-                        + "\nEmployee Status: " + this.employeeStatus
                         + "\nAction: " + this.action
-                        + "\nAction Date: " + this.actionDate
-                        + "\nReason Code: " + this.reasonCode
-                        + "\nPrimary Job: " + this.primaryJob
-                        + "\nContract Job: " + this.contractJob
-                        + "\nPosition: " + this.position
-                        + "\nPosition Entry Date: " + this.positionEntryDate
-                        + "\nOverride Position Data: " + this.overridePositionData
-                        + "\nUpdate by Position: " + this.updatedByPosition
-                        + "\nDepartment: " + this.department
-                        + "\nDepartment Entry Date: " + this.departmentEntryDate
-                        + "\nJob Code: " + this.jobCode
-                        + "\nJob Entry Date: " + this.jobEntryDate
-                        + "\nReport To: " + this.reportTo
-                        + "\nTime in Job: " + this.timeInJob
+                        + "\nReason Code: " + this.reason
+                        + "\nPrimary Job: " + this.standHours
+                        + "\nContract Job: " + this.fte
+                        + "\nPosition: " + this.employeeClass
+                        + "\nPosition Entry Date: " + this.eeoExclusion
+                        + "\nOverride Position Data: " + this.flsaStatus
+                        + "\nUpdate by Position: " + this.officerCode
+                        + "\nDepartment: " + this.fullPartTime
+                        + "\nDepartment Entry Date: " + this.regularTemporary
+                        + "\nJob Code: " + this.workersCompCd
                 ;
         return jobStatusInfo;
     }
@@ -72,70 +55,56 @@ public class JobStatusModel implements ModelInterface {
 
     public String getEffectiveDateSequence() { return effectiveDateSequence; }
 
-    public String getEmployeeStatus() { return employeeStatus; }
 
     public String getAction() { return action; }
 
-    public String getActionDate() { return actionDate; }
 
-    public String getReasonCode() { return reasonCode; }
+    public String getReason() { return reason; }
 
-    public String getPrimaryJob() { return primaryJob; }
+    public String getStandHours() { return standHours; }
 
-    public String getContractJob() { return contractJob; }
+    public String getFte() { return fte; }
 
-    public String getPosition() { return position; }
+    public String getEmployeeClass() { return employeeClass; }
 
-    public String getPositionEntryDate() { return positionEntryDate; }
+    public String getEeoExclusion() { return eeoExclusion; }
 
-    public String getOverridePositionData() { return overridePositionData; }
+    public String getFlsaStatus() { return flsaStatus; }
 
-    public String getUpdatedByPosition() { return updatedByPosition; }
+    public String getOfficerCode() { return officerCode; }
 
-    public String getDepartment() { return department; }
+    public String getFullPartTime() { return fullPartTime; }
 
-    public String getDepartmentEntryDate() { return departmentEntryDate; }
+    public String getRegularTemporary() { return regularTemporary; }
 
-    public String getJobCode() { return jobCode; }
-
-    public String getJobEntryDate() { return jobEntryDate; }
-
-    public String getReportTo() { return reportTo; }
-
-    public String getTimeInJob() { return timeInJob; }
+    public String getWorkersCompCd() { return workersCompCd; }
 
     public void setEffectiveDate(String effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
-
     public void setEffectiveDateSequence(String effectiveDateSequence) { this.effectiveDateSequence = effectiveDateSequence; }
 
     public void setAction(String action) { this.action = action; }
 
-    public void setReasonCode(String reasonCode) { this.reasonCode = reasonCode; }
+    public void setReason(String reason) { this.reason = reason; }
 
-    public void setPrimaryJob(String primaryJob) { this.primaryJob = primaryJob; }
+    public void setStandHours(String standHours) { this.standHours = standHours; }
 
-    public void setContractJob(String contractJob) { this.contractJob = contractJob; }
+    public void setFte(String fte) { this.fte = fte; }
 
-    public void setPosition(String position) { this.position = position; }
+    public void setEmployeeClass(String employeeClass) { this.employeeClass = employeeClass; }
 
-    public void setPositionEntryDate(String positionEntryDate) { this.positionEntryDate = positionEntryDate; }
+    public void setEeoExclusion(String eeoExclusion) { this.eeoExclusion = eeoExclusion; }
 
-    public void setOverridePositionData(String overridePositionData) { this.overridePositionData = overridePositionData; }
+    public void setFlsaStatus(String flsaStatus) { this.flsaStatus = flsaStatus; }
 
-    public void setUpdatedByPosition(String updatedByPosition) { this.updatedByPosition = updatedByPosition; }
+    public void setOfficerCode(String officerCode) { this.officerCode = officerCode; }
 
-    public void setDepartment(String department) { this.department = department; }
+    public void setFullPartTime(String fullPartTime) { this.fullPartTime = fullPartTime; }
 
-    public void setDepartmentEntryDate(String departmentEntryDate) { this.departmentEntryDate = departmentEntryDate; }
+    public void setRegularTemporary(String regularTemporary) { this.regularTemporary = regularTemporary; }
 
-    public void setJobCode(String jobCode) { this.jobCode = jobCode; }
+    public void setWorkersCompCd(String workersCompCd) { this.workersCompCd = workersCompCd; }
 
-    public void setJobEntryDate(String jobEntryDate) { this.jobEntryDate = jobEntryDate; }
-
-    public void setReportTo(String reportTo) { this.reportTo = reportTo; }
-
-    public void setTimeInJob(String timeInJob) { this.timeInJob = timeInJob; }
 }

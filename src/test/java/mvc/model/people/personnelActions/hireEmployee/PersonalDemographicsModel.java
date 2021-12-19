@@ -25,7 +25,7 @@ public class PersonalDemographicsModel implements ModelInterface {
 
     public PersonalDemographicsModel() {
         this.gender = Faker.instance().demographic().sex();
-        this.maritalStatus = Faker.instance().demographic().maritalStatus();
+        this.maritalStatus = Faker.instance().demographic().maritalStatus().replaceAll("Never married", "Single");
         this.birthdate = DateUtilities.adjustDate("MM/dd/yyyy", -7665);
     }
 

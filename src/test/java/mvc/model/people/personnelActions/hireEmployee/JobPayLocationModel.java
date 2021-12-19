@@ -1,43 +1,44 @@
 package mvc.model.people.personnelActions.hireEmployee;
 
-import com.github.javafaker.Faker;
 import mvc.model.ModelInterface;
-import utils.DateUtilities;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class JobStatusModel implements ModelInterface {
+public class JobPayLocationModel implements ModelInterface {
     private String effectiveDate;
     private String current;
     private String effectiveDateSequence;
-    private String employeeStatus;
     private String action;
-    private String actionDate;
     private String reasonCode;
-    private String primaryJob;
-    private String contractJob;
-    private String position;
-    private String positionEntryDate;
-    private String overridePositionData;
-    private String updatedByPosition;
-    private String department;
-    private String departmentEntryDate;
-    private String jobCode;
-    private String jobEntryDate;
-    private String reportTo;
-    private String timeInJob;
+    private String company;
+    private String payGroup;
+    private String employeeType;
+    private String workLocation;
+    private String reportingLocation;
+    private String geogDifferential;
+    private String holidaySchedule;
+    private String salaryPlan;
+    private String salaryGrade;
+    private String gradeEntryDate;
+    private String salaryStep;
+    private String stepEntryDate;
+    private String nextStepDate;
+    private String variablePlan;
+    private String variablePlanEntryDate;
+    private String splitBase;
+    private String splitVariable;
+    private String allowDraw;
 
-    public JobStatusModel() {
+    public JobPayLocationModel() {
         this.action = "Hire";
     }
 
     @Override
     public Map<String, String> loadData() {
-        HashMap<String, String> jobStatusData = new HashMap<>();
-
-        jobStatusData.put("Action", this.action);
-        return jobStatusData;
+        HashMap<String, String> jobPayLocationData = new HashMap<>();
+        //Initialize variables here,..
+        return jobPayLocationData;
     }
 
     @Override
@@ -46,96 +47,211 @@ public class JobStatusModel implements ModelInterface {
                           "\nEffective Date: " + this.effectiveDate
                         + "\nCurrent: " + this.current
                         + "\nEffective Date Sequence No.: " + this.effectiveDateSequence
-                        + "\nEmployee Status: " + this.employeeStatus
+                        + "\nPay Group: " + this.payGroup
                         + "\nAction: " + this.action
-                        + "\nAction Date: " + this.actionDate
+                        + "\nCompany: " + this.company
                         + "\nReason Code: " + this.reasonCode
-                        + "\nPrimary Job: " + this.primaryJob
-                        + "\nContract Job: " + this.contractJob
-                        + "\nPosition: " + this.position
-                        + "\nPosition Entry Date: " + this.positionEntryDate
-                        + "\nOverride Position Data: " + this.overridePositionData
-                        + "\nUpdate by Position: " + this.updatedByPosition
-                        + "\nDepartment: " + this.department
-                        + "\nDepartment Entry Date: " + this.departmentEntryDate
-                        + "\nJob Code: " + this.jobCode
-                        + "\nJob Entry Date: " + this.jobEntryDate
-                        + "\nReport To: " + this.reportTo
-                        + "\nTime in Job: " + this.timeInJob
+                        + "\nEmployee Type: " + this.employeeType
+                        + "\nWork Location: " + this.workLocation
+                        + "\nReporting Location: " + this.reportingLocation
+                        + "\nGeog Differential: " + this.geogDifferential
+                        + "\nHoliday Schedule: " + this.holidaySchedule
+                        + "\nSalary Plan: " + this.salaryPlan
+                        + "\nSalary Grade: " + this.salaryGrade
+                        + "\nGrade Entry Date: " + this.gradeEntryDate
+                        + "\nSalary Step: " + this.salaryStep
+                        + "\nStep Entry Date: " + this.stepEntryDate
+                        + "\nNext Step Date: " + this.nextStepDate
+                        + "\nVariable Plan: " + this.variablePlan
+                        + "\nVarialbe Plan Entry Date: " + this.variablePlanEntryDate
+                        + "\nSplit Base: " + this.splitBase
+                        + "\nSplit Variable: " + this.splitVariable
+                        + "\nAllow Draw: " + this.allowDraw
                 ;
         return jobStatusInfo;
     }
 
-    public String getEffectiveDate() { return effectiveDate; }
+    public String getEffectiveDate() {
+        return effectiveDate;
+    }
 
-    public String getCurrent() { return current; }
+    public String getCurrent() {
+        return current;
+    }
 
-    public String getEffectiveDateSequence() { return effectiveDateSequence; }
+    public String getEffectiveDateSequence() {
+        return effectiveDateSequence;
+    }
 
-    public String getEmployeeStatus() { return employeeStatus; }
+    public String getAction() {
+        return action;
+    }
 
-    public String getAction() { return action; }
+    public String getReasonCode() {
+        return reasonCode;
+    }
 
-    public String getActionDate() { return actionDate; }
+    public String getCompany() {
+        return company;
+    }
 
-    public String getReasonCode() { return reasonCode; }
+    public String getPayGroup() {
+        return payGroup;
+    }
 
-    public String getPrimaryJob() { return primaryJob; }
+    public String getEmployeeType() {
+        return employeeType;
+    }
 
-    public String getContractJob() { return contractJob; }
+    public String getWorkLocation() {
+        return workLocation;
+    }
 
-    public String getPosition() { return position; }
+    public String getReportingLocation() {
+        return reportingLocation;
+    }
 
-    public String getPositionEntryDate() { return positionEntryDate; }
+    public String getGeogDifferential() {
+        return geogDifferential;
+    }
 
-    public String getOverridePositionData() { return overridePositionData; }
+    public String getHolidaySchedule() {
+        return holidaySchedule;
+    }
 
-    public String getUpdatedByPosition() { return updatedByPosition; }
+    public String getSalaryPlan() {
+        return salaryPlan;
+    }
 
-    public String getDepartment() { return department; }
+    public String getSalaryGrade() {
+        return salaryGrade;
+    }
 
-    public String getDepartmentEntryDate() { return departmentEntryDate; }
+    public String getGradeEntryDate() {
+        return gradeEntryDate;
+    }
 
-    public String getJobCode() { return jobCode; }
+    public String getSalaryStep() {
+        return salaryStep;
+    }
 
-    public String getJobEntryDate() { return jobEntryDate; }
+    public String getStepEntryDate() {
+        return stepEntryDate;
+    }
 
-    public String getReportTo() { return reportTo; }
+    public String getNextStepDate() {
+        return nextStepDate;
+    }
 
-    public String getTimeInJob() { return timeInJob; }
+    public String getVariablePlan() {
+        return variablePlan;
+    }
+
+    public String getVariablePlanEntryDate() {
+        return variablePlanEntryDate;
+    }
+
+    public String getSplitBase() {
+        return splitBase;
+    }
+
+    public String getSplitVariable() {
+        return splitVariable;
+    }
+
+    public String getAllowDraw() {
+        return allowDraw;
+    }
 
     public void setEffectiveDate(String effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
+    public void setCurrent(String current) {
+        this.current = current;
+    }
 
-    public void setEffectiveDateSequence(String effectiveDateSequence) { this.effectiveDateSequence = effectiveDateSequence; }
+    public void setEffectiveDateSequence(String effectiveDateSequence) {
+        this.effectiveDateSequence = effectiveDateSequence;
+    }
 
-    public void setAction(String action) { this.action = action; }
+    public void setAction(String action) {
+        this.action = action;
+    }
 
-    public void setReasonCode(String reasonCode) { this.reasonCode = reasonCode; }
+    public void setReasonCode(String reasonCode) {
+        this.reasonCode = reasonCode;
+    }
 
-    public void setPrimaryJob(String primaryJob) { this.primaryJob = primaryJob; }
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
-    public void setContractJob(String contractJob) { this.contractJob = contractJob; }
+    public void setPayGroup(String payGroup) {
+        this.payGroup = payGroup;
+    }
 
-    public void setPosition(String position) { this.position = position; }
+    public void setEmployeeType(String employeeType) {
+        this.employeeType = employeeType;
+    }
 
-    public void setPositionEntryDate(String positionEntryDate) { this.positionEntryDate = positionEntryDate; }
+    public void setWorkLocation(String workLocation) {
+        this.workLocation = workLocation;
+    }
 
-    public void setOverridePositionData(String overridePositionData) { this.overridePositionData = overridePositionData; }
+    public void setReportingLocation(String reportingLocation) {
+        this.reportingLocation = reportingLocation;
+    }
 
-    public void setUpdatedByPosition(String updatedByPosition) { this.updatedByPosition = updatedByPosition; }
+    public void setGeogDifferential(String geogDifferential) {
+        this.geogDifferential = geogDifferential;
+    }
 
-    public void setDepartment(String department) { this.department = department; }
+    public void setHolidaySchedule(String holidaySchedule) {
+        this.holidaySchedule = holidaySchedule;
+    }
 
-    public void setDepartmentEntryDate(String departmentEntryDate) { this.departmentEntryDate = departmentEntryDate; }
+    public void setSalaryPlan(String salaryPlan) {
+        this.salaryPlan = salaryPlan;
+    }
 
-    public void setJobCode(String jobCode) { this.jobCode = jobCode; }
+    public void setSalaryGrade(String salaryGrade) {
+        this.salaryGrade = salaryGrade;
+    }
 
-    public void setJobEntryDate(String jobEntryDate) { this.jobEntryDate = jobEntryDate; }
+    public void setGradeEntryDate(String gradeEntryDate) {
+        this.gradeEntryDate = gradeEntryDate;
+    }
 
-    public void setReportTo(String reportTo) { this.reportTo = reportTo; }
+    public void setSalaryStep(String salaryStep) {
+        this.salaryStep = salaryStep;
+    }
 
-    public void setTimeInJob(String timeInJob) { this.timeInJob = timeInJob; }
+    public void setStepEntryDate(String stepEntryDate) {
+        this.stepEntryDate = stepEntryDate;
+    }
+
+    public void setNextStepDate(String nextStepDate) {
+        this.nextStepDate = nextStepDate;
+    }
+
+    public void setVariablePlan(String variablePlan) {
+        this.variablePlan = variablePlan;
+    }
+
+    public void setVariablePlanEntryDate(String variablePlanEntryDate) {
+        this.variablePlanEntryDate = variablePlanEntryDate;
+    }
+
+    public void setSplitBase(String splitBase) {
+        this.splitBase = splitBase;
+    }
+
+    public void setSplitVariable(String splitVariable) {
+        this.splitVariable = splitVariable;
+    }
+
+    public void setAllowDraw(String allowDraw) {
+        this.allowDraw = allowDraw;
+    }
 }
