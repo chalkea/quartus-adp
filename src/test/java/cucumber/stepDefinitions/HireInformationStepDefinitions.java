@@ -3,8 +3,6 @@ package cucumber.stepDefinitions;
 import mvc.controller.people.personnelActions.hireEmployee.*;
 import core.Context;
 import io.cucumber.java.en.And;
-import mvc.view.people.personnelActions.hireEmployee.hireInformationHire.CitizenshipI9Page;
-import mvc.view.people.personnelActions.hireEmployee.hireInformationHire.JobStatusPage;
 
 public class HireInformationStepDefinitions {
     @And("Practitioner enters all employee information and is on the {string} page")
@@ -19,6 +17,9 @@ public class HireInformationStepDefinitions {
         JobPayLocationController jobPayLocationController = new JobPayLocationController();
         CompensationDetailsController compensationDetailsController = new CompensationDetailsController();
         EarningsDistributionController earningsDistributionController = new EarningsDistributionController();
+        AutolinkDetailsController autolinkDetailsController = new AutolinkDetailsController();
+        CostNumberDetailController costNumberDetailController = new CostNumberDetailController();
+        BenefitProgramController benefitProgramController = new BenefitProgramController();
 
         Context.put("navigateToPage",navigateToPage);
 
@@ -46,6 +47,15 @@ public class HireInformationStepDefinitions {
 
         earningsDistributionController.populateFromDataModel();
         earningsDistributionController.click("Next Button");
+
+        autolinkDetailsController.populateFromDataModel();
+        autolinkDetailsController.click("Next Button");
+
+        costNumberDetailController.populateFromDataModel();
+        costNumberDetailController.click("Next Button");
+
+        benefitProgramController.populateFromDataModel();
+        benefitProgramController.click("Next Button");
 
     }
 }

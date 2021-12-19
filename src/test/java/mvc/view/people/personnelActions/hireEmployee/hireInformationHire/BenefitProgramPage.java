@@ -24,6 +24,14 @@ public class BenefitProgramPage extends Page {
     @FindBy(locator = "css=#metadata-form-22__JOB_DATA5xBENEFIT_PROGRAMx12 input", excludeFromSearch = false)
     public Control benefitProgram;
 
+    @Alias("Benefit Program Search")
+    @FindBy(locator = "css=#metadata-form-22__JOB_DATA5xBENEFIT_PROGRAMx12 i", excludeFromSearch = false)
+    public Control benefitProgramSearch;
+
+    @Alias("Benefit Program dropdown")
+    @FindBy(locator = "xpath=//*[@class='vdl-popup__content van-search-input__popup']//*/li[1]", excludeFromSearch = false)
+    public Control benefitProgramDropdown;
+
     @Alias("Effective Date Sequence")
     @FindBy(locator = "css=#metadata-form-20__AL_JOB_DATA2xEFFSEQx10 span", excludeFromSearch = false)
     public Control effectiveDateSequence;
