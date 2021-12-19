@@ -53,12 +53,14 @@ public class PersonalDemographicsController implements ControllerInterface {
         String locator;
         clickOnElement(MARITAL_STATUS);
         locator = String.format("//span[text()='%s']", personalDemograpchicsInfo.get(MARITAL_STATUS));
+        Page.getCurrent().buildXpathControl(locator).isClickable(5);
         Page.getCurrent().buildXpathControl(locator).click();
     }
 
     private void selectGender() {
         clickOnElement(GENDER);
         String locator = String.format("//span[text()='%s']", personalDemograpchicsInfo.get(GENDER));
+        Page.getCurrent().buildXpathControl(locator).isClickable(5);
         Page.getCurrent().buildXpathControl(locator).click();
     }
 
