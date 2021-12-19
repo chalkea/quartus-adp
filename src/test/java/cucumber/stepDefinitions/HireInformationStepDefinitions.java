@@ -17,6 +17,8 @@ public class HireInformationStepDefinitions {
         JobStatusController jobStatusController = new JobStatusController();
         JobInformationController jobInformationController = new JobInformationController();
         JobPayLocationController jobPayLocationController = new JobPayLocationController();
+        CompensationDetailsController compensationDetailsController = new CompensationDetailsController();
+        EarningsDistributionController earningsDistributionController = new EarningsDistributionController();
 
         Context.put("navigateToPage",navigateToPage);
 
@@ -38,6 +40,12 @@ public class HireInformationStepDefinitions {
 
         jobPayLocationController.populateFromDataModel();
         jobPayLocationController.click("Next Button");
+
+        compensationDetailsController.populateFromDataModel();
+        compensationDetailsController.click("Next Button");
+
+        earningsDistributionController.populateFromDataModel();
+        earningsDistributionController.click("Next Button");
 
     }
 }
