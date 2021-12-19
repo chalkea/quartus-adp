@@ -17,8 +17,8 @@ public class UnionInformationPage extends Page {
     public Control pageTitle;
 
     //********
-    @Alias("Submit Button")
-    @FindBy(locator = "xpath=//span[text()='Submit']", excludeFromSearch = false)
+    @Alias("Next Button")
+    @FindBy(locator = "xpath=//span[text()='Next']", excludeFromSearch = false)
     public Control submitButton;
 
     @Alias("Prev Button")

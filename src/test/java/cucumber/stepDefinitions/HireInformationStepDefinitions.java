@@ -1,8 +1,16 @@
 package cucumber.stepDefinitions;
 
+import controls.AdpControl;
+import cucumber.steps.CommonSteps;
 import mvc.controller.people.personnelActions.hireEmployee.*;
 import core.Context;
 import io.cucumber.java.en.And;
+import org.junit.Assert;
+import ui.Page;
+import ui.controls.Control;
+
+import static controls.AdpControl.*;
+import static ui.Page.*;
 
 public class HireInformationStepDefinitions {
     @And("Practitioner enters all employee information and is on the {string} page")
@@ -20,8 +28,11 @@ public class HireInformationStepDefinitions {
         AutolinkDetailsController autolinkDetailsController = new AutolinkDetailsController();
         CostNumberDetailController costNumberDetailController = new CostNumberDetailController();
         BenefitProgramController benefitProgramController = new BenefitProgramController();
+        EmploymentInformationController employmentInformationController = new EmploymentInformationController();
+        UnionInformationController unionInformationController = new UnionInformationController();
+        AdditionalRatesController additonalRatesController = new AdditionalRatesController();
 
-        Context.put("navigateToPage",navigateToPage);
+        Context.put("navigateToPage", navigateToPage);
 
         hrInformationHireController.clickOkButton();
         employeeInformationController.populateFromDataModel();
@@ -57,5 +68,28 @@ public class HireInformationStepDefinitions {
         benefitProgramController.populateFromDataModel();
         benefitProgramController.click("Next Button");
 
+        employmentInformationController.populateFromDataModel();
+        employmentInformationController.click("Next Button");
+
+        unionInformationController.populateFromDataModel();
+        unionInformationController.click("Next Button");
+
+        additonalRatesController.populateFromDataModel();
+        additonalRatesController.click("Submit Button");
+        CommonSteps.doThreadSleep(5000);
+
+        isButtonPresent("Ok");
+        isButtonPresent("Ok");
+        isButtonPresent("Ok");
+        isButtonPresent("No");
+
+        Control c = Page.getCurrent().buildXpathControl("//*[contains(text(),'Your changes have been saved.')]");
+        Assert.assertTrue("New hire did not complete", c.exists(5));
+    }
+
+    private void isButtonPresent(String button) {
+        String locator = String.format("//button/span[text()='%s']", button);
+        if (getCurrent().buildXpathControl(locator).exists())
+            getCurrent().buildXpathControl(locator).click();
     }
 }
