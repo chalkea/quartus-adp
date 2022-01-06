@@ -7,9 +7,14 @@ import org.openqa.selenium.WebDriver;
 import ui.FindBy;
 import ui.Page;
 import ui.controls.Edit;
+import utils.UrlEnvironmentSetter;
 
 @Alias("Welcome to ADP")
 public class WelcomeToADP extends Page {
+
+    @Alias("Page Title")
+    @FindBy(locator = "id=login-layout_welcome", excludeFromSearch = false)
+    public Edit pageTitle;
 
     @Alias("User ID Label")
     @FindBy(locator = "id=user_id", excludeFromSearch = false)
@@ -49,12 +54,10 @@ public class WelcomeToADP extends Page {
 
     @Override
     public Page navigate() {
+        UrlEnvironmentSetter.SetEnvironmentUrl();
         this.getDriver().get(System.getProperty("url"));
-        if (Configuration.platform().isWeb())
 
-        {
-            this.getDriver().manage().window().setSize(new Dimension(1400, 1400));
-        }
+        if (Configuration.platform().isWeb())
 
         Page.setCurrent(this);
         return this;

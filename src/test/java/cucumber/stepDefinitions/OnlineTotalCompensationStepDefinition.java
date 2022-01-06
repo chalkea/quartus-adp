@@ -2,21 +2,17 @@ package cucumber.stepDefinitions;
 
 import core.Context;
 import cucumber.steps.CommonSteps;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import mvc.view.WelcomeToADP;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import ui.Page;
 import ui.controls.Control;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
-public class OnlineTotalCompensation {
+public class OnlineTotalCompensationStepDefinition {
     WelcomeToADP welcomeToADP;
 
     @Given("a practitioner {string} is logged in for OTR client")
@@ -25,8 +21,13 @@ public class OnlineTotalCompensation {
         CommonSteps.loginTo("Welcome to ADP");
     }
 
-    @When("view {string} for {string} under {string}")
-    public void viewFor(String itemName, String employee, String barName) {
+    @When("when the practitioner views {string} {string}")
+    public void viewMySelf(String barName, String itemName) {
+        viewAsPractioner(barName, itemName,"");
+    }
+    @When("the practitioner views {string} {string} for {string}")
+    public void viewAsPractioner(String barName, String itemName, String employee) {
+        Context.put("barName", barName);
         Context.put("itemName", itemName);
         Context.put("employee", employee);
         String locatorPattern = "//*[contains(text(), '%s')]//parent::div//descendant::a[text()='" + itemName + "']";
@@ -36,25 +37,31 @@ public class OnlineTotalCompensation {
         Assert.assertEquals(itemName, control.getText());
 
         //Switch to iframe: id=portalIFrame
-        Page.getCurrent().getDriver().switchTo().frame(0);
+        Page.getCurrent().getDriver().switchTo().defaultContent();
+        Page.getCurrent().getDriver().switchTo().frame("portalIFrame_iframe");
+
+        //        CommonSteps.doThreadSleep(3000);
         Control in = Page.getCurrent().buildCssControl("input#quickSearchEmployee");
+        in.isClickable(7);
         in.click();
         in.element().sendKeys(employee.substring(0, 5));
         Page.getCurrent().buildXpathControl("//*[text()='Taylor, Andrew - 910901']").click();
 
 
         //Compare
+        Page.getCurrent().buildCssControl("#totalCompensationTotal").isClickable(7);
         Page.getCurrent().buildCssControl("#totalCompensationTotal").getText();
         Page.getCurrent().buildCssControl("#basePayTotal").getText();
-        Page.getCurrent().buildCssControl("#companyContributionsTotal").getText();
+        Page.getCurrent().buildCssControl("#companyContributionsMark").getText();
         //        Page.getCurrent().getDriver().switchTo().defaultContent();
     }
 
-    @And("views {string} under {string}")
-    public void viewsUnder(String arg0, String arg1) {
+    @Then("^(I|the practitioner) should see (the following|their) Total Compensation of$")
+    public void iShouldSeeTheFollowingOf(io.cucumber.datatable.DataTable dataTable ) {
+        Map<String,String> totalCompensation = dataTable.asMap(String.class, String.class);
+        totalCompensation.get("Total Compensation");
+        totalCompensation.get("Base Pay");
+        totalCompensation.get("Company Contributions");
     }
 
-    @Then("I should see the following {string} of")
-    public void iShouldSeeTheFollowingOf(String arg0) {
-    }
 }

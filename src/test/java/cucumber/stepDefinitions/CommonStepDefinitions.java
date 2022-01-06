@@ -1,6 +1,9 @@
 package cucumber.stepDefinitions;
 
+import com.applitools.eyes.selenium.Eyes;
+import com.applitools.eyes.selenium.fluent.Target;
 import controls.AdpControl;
+import core.Context;
 import core.Driver;
 import cucumber.steps.CommonSteps;
 import io.cucumber.datatable.DataTable;
@@ -11,6 +14,7 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;
 import ui.Page;
+import ui.PageFactory;
 import ui.controls.Control;
 import utils.UrlEnvironmentSetter;
 
@@ -65,6 +69,14 @@ public class CommonStepDefinitions {
         Assert.assertNotNull("Unable to find '" + name + "' element on current page", control);
         control.click();
     }
+    @When("I select the {string} link")
+    public void clickOnLink(String link) throws Exception {
+        String locator = String.format("//*[text()='%s']", link);
+        Control control = Page.getCurrent().buildXpathControl(locator);
+        boolean present = Page.getCurrent().isTextPresent(link);
+        Assert.assertNotNull("Unable to find '" + link + "' link on current page", present);
+        control.click();
+    }
 
     @When("I enter {string} into the {string} field")
     public void enterValue(String text, String fieldName) throws Exception {
@@ -86,7 +98,7 @@ public class CommonStepDefinitions {
     }
 
     @Then("I should see the {string} field is available/present")
-    public Control verifyElementExists(String fieldName) throws Exception {
+    public Control verifyElementExists(String fieldName)  {
         return (Control) AdpControl.verifyElementExists(fieldName);
     }
 
@@ -107,9 +119,11 @@ public class CommonStepDefinitions {
         return AdpControl.verifyFieldText(fieldName, text);
     }
 
-    @Then("I should see the {string} text is shown")
+    @Then("I should see the {string} text/button is shown")
     public void verifyTextIsPresent(String text) {
         CommonSteps.verifyTextPresence(text);
+        Eyes eyes = (Eyes) Context.get("eyes");
+        eyes.check(Target.window().fully().withName(text));
     }
 
     @Then("I should see the following labels are shown:")
@@ -154,7 +168,7 @@ public class CommonStepDefinitions {
 //        CommonSteps.logoffUser();
     }
 
-    @Then("I tap the navigation links and see the corresponding task panel")
+    @Then("I tap/select the navigation links and see the corresponding task panel")
     public void clickNavItem(DataTable content) throws Exception {
         CommonSteps.clickOnLeftNavigationItem(content);
     }
@@ -166,5 +180,17 @@ public class CommonStepDefinitions {
         AdpControl.clickOnElement("Search Button");
         AdpControl.clickOnElement("Highest Access Checkbox");
         AdpControl.clickOnElement("Save Button");
+    }
+
+    @And("I select global search {string} under {string}")
+    public void iSelectGlobalSearchUnder(String itemName, String barName) {
+        String locator = String.format("//*[@class='activity-menu']//*[text()='%s']//following-sibling::div//*[text()='%s']", barName, itemName);
+        CommonSteps.selectTaskFromGlobalSearch(barName,itemName,locator);
+    }
+
+    @Then("I should see {string} slide-in title")
+    public void iShouldSeeSlideInTitle(String text) {
+        //Handle going to page
+        verifyElementExists(text);
     }
 }

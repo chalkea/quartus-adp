@@ -23,6 +23,7 @@ Feature: Dashboard and Navigation tests
       | Hire Employee        | Empl ID Label | People  | Personnel Actions             | Hire Employee                   | HR Information (Hire)       |
       | Hire Employee        | Empl ID Label | People  | Personnel Actions             | Quick Hire                      | Hire Employee               |
 
+  @TaskRemoval
   Scenario Outline: Check for removed tasks
     Given a user having valid credentials
     And I go to the "Ehrms Dashboard" page
@@ -32,10 +33,26 @@ Feature: Dashboard and Navigation tests
 
     @Smoke
     Examples:
-      | MENU GROUP                | MENU NAME                                          | BAR NAME                                       | ITEM NAME                                       |
-      | Compensation              | Compensation Reports                               | Reports                                        | Job Grading By Evaluation Points (CMP002)       |
-      | People                    | Personnel Actions                                  |                                                | Review Prior Work Experience                    |
-    @TaskRemoval
+      | MENU GROUP   | MENU NAME            | BAR NAME | ITEM NAME                                 |
+      | Compensation | Compensation Reports | Reports  | Job Grading By Evaluation Points (CMP002) |
+      | People       | Personnel Actions    |          | Review Prior Work Experience              |
+    @Ehrms-118742
+    Examples:
+      | MENU GROUP   | MENU NAME                         | BAR NAME                     | ITEM NAME                                    |
+      | Payroll      | Company Information               | Payroll Departments          | Rapid Add - Master Payroll Departments       |
+      | Payroll      | Company Information               | Payroll Departments          | Rapid Add - Payroll Departments by Pay Group |
+      | Payroll      | Company Information               | Job Numbers                  | Rapid Add - Master Job Numbers               |
+      | Payroll      | Company Information               | Job Numbers                  | Rapid Add - Job Numbers by Pay Group         |
+      | Payroll      | Company Information               | Cost Numbers                 | Rapid Add - Master Cost Numbers              |
+      | Payroll      | Company Information               | Cost Numbers                 | Rapid Add - Cost Numbers by Pay Group        |
+      | Payroll      | Company Information               | Optional Payroll Information | Rapid Add - Special Accumulators             |
+      | System admin | Autolink Payroll Setup (Required) | Payroll Departments          | Rapid Add - Master Payroll Departments       |
+      | System admin | Autolink Payroll Setup (Required) | Payroll Departments          | Rapid Add - Payroll Departments by Pay Group |
+      | System admin | Autolink Payroll Setup (Optional) | Cost Numbers                 | Rapid Add - Master Cost Numbers              |
+      | System admin | Autolink Payroll Setup (Optional) | Cost Numbers                 | Rapid Add - Cost Numbers by Pay Group        |
+      | System admin | Autolink Payroll Setup (Optional) | Job Numbers                  | Rapid Add - Master Job Numbers              |
+      | System admin | Autolink Payroll Setup (Optional) | Job Numbers                  | Rapid Add - Job Numbers by Pay Group        |
+      | System admin | Autolink Payroll Setup (Optional) | Special Accumulators         | Rapid Add - Special Accumulators             |
     Examples:
       | MENU GROUP                | MENU NAME                                          | BAR NAME                                       | ITEM NAME                                       |
       | Compensation              | Compensation Reports                               | Reports                                        | Job Code Table (PER709A)                        |

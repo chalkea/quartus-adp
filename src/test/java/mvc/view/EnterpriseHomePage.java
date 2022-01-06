@@ -33,6 +33,14 @@ public class EnterpriseHomePage extends Page {
     @FindBy(locator = "id=revit_form_Button_0", excludeFromSearch = false)
     public Control btnOk;
 
+    @Alias("Submit")
+    @FindBy(locator = "xpath=//*[text()='Submit']", excludeFromSearch = false)
+    public Control btnSubmit;
+
+    @Alias("Search")
+    @FindBy(locator = "xpath=//*[text()='Search']", excludeFromSearch = false)
+    public Control searchButton;
+
     @Override
     public Page navigate() {
         Page.setCurrent(this);

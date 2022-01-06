@@ -1,7 +1,7 @@
 Feature: HR Information (HIRE)
 
   @HrInformationHire
-  Scenario Outline: Relational Error validation for Phone Type and Phone
+  Scenario Outline: Warriors - Relational Error validation for Phone Type and Phone
     Given Practitioner User is on the "HR Information Hire" page under "Hire Employee"
     And Practitioner enters all employee information and is on the "Additional Rates" page
 

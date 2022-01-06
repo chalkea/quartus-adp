@@ -3,17 +3,20 @@ package cucumber.steps;
 import com.github.javafaker.Faker;
 import controls.AdpControl;
 import io.cucumber.datatable.DataTable;
+import mvc.view.EnterpriseHomePage;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import mvc.view.EnterpriseHomePage;
 import ui.Page;
 import ui.PageFactory;
 import ui.controls.Control;
 import ui.controls.TableView;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static controls.AdpControl.doWhileSpinnerIsPresent;
 import static junit.framework.TestCase.assertTrue;
 import static ui.Page.getCurrent;
 
@@ -25,7 +28,7 @@ public class CommonSteps {
     private static EnterpriseHomePage enterpriseHomePage;
     private static Faker faker = Faker.instance();
     private static AdpControl adpControl;
-    private static final String locatorVariable = "//a[@class='nav-item menu-open' or @class='nav-item top' or @class='nav-item menu-open' or @class='nav-item menu-open fade-enter-to']//span[text()='%s' and @class='label']";
+    private static final String locatorVariable = "//*[@id='nas-favorites' or @class='nav-item menu-open' or @class='nav-item top' or @class='nav-item menu-open' or @class='nav-item menu-open fade-enter-to']//span[text()='%s' and @class='label']";
 
 
     public static void EnterPersonalDetails() throws Exception {
@@ -41,17 +44,19 @@ public class CommonSteps {
     public static void logoffUser() throws Exception {
         EnterpriseHomePage enterpriseHomePage = PageFactory.init(EnterpriseHomePage.class);
         Page.setCurrent(enterpriseHomePage);
-        AdpControl.doWhileSpinnerIsPresent();
+        doWhileSpinnerIsPresent();
         enterpriseHomePage.leftNavNasUser.click();
-        AdpControl.doWhileSpinnerIsPresent();
+        doWhileSpinnerIsPresent();
         enterpriseHomePage.leftNavLogoff.click();
-        AdpControl.doWhileSpinnerIsPresent();
+        doWhileSpinnerIsPresent();
         getCurrent().getDriver().switchTo().activeElement();
         enterpriseHomePage.btnOk.click();
     }
 
     public static void loginTo(String name) throws Exception {
         AdpControl.goingTo(name);
+        Assert.assertTrue("Not on "+name+ " page!"
+                , Page.screen(name).isTextPresent(name));
 
         if (System.getProperty("userType").equalsIgnoreCase("adpUser")) {
             enterLoginCredentials();
@@ -73,7 +78,7 @@ public class CommonSteps {
 
         String locator = String.format("//*[text()='%s' or contains(text(), '%s' )]", client, client);
         Control xpath = getCurrent().buildXpathControl(locator);
-        AdpControl.doWhileSpinnerIsPresent();
+        doWhileSpinnerIsPresent();
         AdpControl.clickControl(xpath);
 
         String locatorPractitioner = String.format("//*[text()='%s' or contains(text(), '%s' )]", "Practitioner", "Practitioner");
@@ -191,9 +196,18 @@ public class CommonSteps {
 
     public static void clickOnLeftNavigationItem(DataTable content) throws Exception {
         List<String> items = content.asList();
-        AdpControl.doWhileSpinnerIsPresent();
+
+//        boolean pageLoaded = Page.getCurrent().buildCssControl("span#icon-bar-supportCenter").visible(30);
+//        System.out.println("Page has settled down: " + pageLoaded);
+//        if (!pageLoaded) doThreadSleep(15000);
+
+        doWhileSpinnerIsPresent();
+
+        if (System.getProperty("userType").equalsIgnoreCase("adpUser"))
+            doThreadSleep(25000);
+
         String locator = "#nas-top-menu > a.bread-crumb.home-crumb > span";
-        Page.getCurrent().buildCssControl(locator).isClickable(5);
+        Page.getCurrent().buildCssControl(locator).isClickable(10);
         Page.getCurrent().buildCssControl(locator).click();
         for (String item : items) selectLeftNavigationItem(item);
         String fileName = "./target/screenshots/passed/" + Page.getCurrent().getClass().getSimpleName()
@@ -209,16 +223,15 @@ public class CommonSteps {
     public static void selectLeftNavigationItem(String itemName) {
         //Return if itemName is blank, empty
         if (itemName.isEmpty()) return;
+        if (itemName.isBlank()) return;
         Page.getCurrent().waitForAngularRequestToComplete();
-        boolean supportIconVisible = false;
-        while (!supportIconVisible) supportIconVisible = Page.getCurrent().getDriver().findElements(By.xpath("//span[@title='Support']")).size() > 0;
-        doThreadSleep(3000);
-        boolean exists = false;
+        waitForSupportBarItems();
+        boolean exists;
         String locator = String.format(locatorVariable, itemName);
 
-        AdpControl.doWhileSpinnerIsPresent();
+        doWhileSpinnerIsPresent();
         //Fail test when elements not on page
-        assertTrue("Item Name doesn't exist: " + itemName, Page.getCurrent().getDriver().findElements(By.xpath(locator)).size() > 0);
+        assertTrue( itemName + " - item  doesn't exist!", Page.getCurrent().getDriver().findElements(By.xpath(locator)).size() > 0);
         WebElement webElement = Page.getCurrent().getDriver().findElement(By.xpath(locator));
         Control control = null;
         try {
@@ -234,32 +247,43 @@ public class CommonSteps {
         }
     }
 
-    public static void selectTaskFromGlobalSearch(String parentTask, String task, String locatorPattern) {
+    private static void waitForSupportBarItems() {
+        boolean supportIconVisible = false;
+        while (!supportIconVisible)
+            supportIconVisible = Page.getCurrent().getDriver().findElements(By.xpath("//span[@title='Support']")).size() > 0;
+        doThreadSleep(3000);
+    }
+
+    public static void selectTaskFromGlobalSearch(String barName, String itemName, String locatorPattern) {
 
         String gsl = "#toolbarQuickSearchInput";
         doThreadSleep(3000);
 //        doWhileSpinnerIsPresent();
         Page.getCurrent().buildCssControl(gsl).isClickable(5);
         Page.getCurrent().buildCssControl(gsl).click();
-        AdpControl.doWhileSpinnerIsPresent();
+        doWhileSpinnerIsPresent();
         Page.getCurrent().buildCssControl(gsl).element().isDisplayed();
         Page.getCurrent().buildCssControl(gsl).element().clear();
-        Page.getCurrent().buildCssControl(gsl).element().sendKeys(task);
-        AdpControl.doWhileSpinnerIsPresent();
+        Page.getCurrent().buildCssControl(gsl).element().sendKeys(itemName);
+        doWhileSpinnerIsPresent();
         String act = "//*[@id='nasShellMastheadSearch']//*[contains(text()," + ACTIVITY + ")]";
+        doThreadSleep(3000);
 
-        Page.getCurrent().buildXpathControl(act).isClickable(5);
+        Page.getCurrent().buildXpathControl(act).isClickable(10);
         Page.getCurrent().buildXpathControl(act).click();
 
-        String locator = String.format(locatorPattern, parentTask);
+        doThreadSleep(3000);
+        String locator = String.format(locatorPattern, barName);
         WebDriver driver = Page.getCurrent().getDriver();
         WebElement element = driver.findElement(By.xpath(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        Page.getCurrent().buildXpathControl(locator).isClickable(5);
+        Page.getCurrent().buildXpathControl(locator).isClickable(10);
         Page.getCurrent().buildXpathControl(locator).click();
     }
 
-    public static DataTable createDataTable(List<String> raw) { return DataTable.create(Collections.singletonList(raw)); }
+    public static DataTable createDataTable(List<String> raw) {
+        return DataTable.create(Collections.singletonList(raw));
+    }
 
     public static void doThreadSleep(long mils) {
         try {
