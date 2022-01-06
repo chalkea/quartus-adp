@@ -1,0 +1,7 @@
+<bean>
+    "org.openqa.selenium.support.events.EventFiringWebDriver"​
+    destroy-method=​"quit"​​>​
+    ​<constructor-arg>​
+    ​<bean​ class=​"org.openqa.selenium.firefox.FirefoxDriver"​ ​/>​
+    ​</constructor-arg>
+</bean>

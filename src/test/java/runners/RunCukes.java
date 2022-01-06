@@ -6,15 +6,17 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {
-                "html:build/cucumber-html-report"
-                , "junit:build/cucumber-junit.xml"
-                , "json:build/cucumber.json"
-                , "pretty:build/cucumber-pretty.txt"
-                , "usage:build/cucumber-usage.json"
-        },
         features={"src/test/resources/features"}
         , glue={"cucumber/stepDefinitions"}
+        ,
+        plugin = {
+                "html:target/cucumber-html-report"
+                , "junit:target/cucumber-junit.xml"
+                , "json:target/cucumber.json"
+                , "pretty:target/cucumber-pretty.txt"
+                , "usage:target/cucumber-usage.json"
+                , "com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"
+        }
 )
 public class RunCukes {
 }
