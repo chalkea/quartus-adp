@@ -1,6 +1,11 @@
 package cucumber.stepDefinitions.hooks;
 
 
+import com.applitools.eyes.BatchInfo;
+import com.applitools.eyes.TestResultsSummary;
+import com.applitools.eyes.selenium.Eyes;
+import com.applitools.eyes.visualgrid.services.RunnerOptions;
+import com.applitools.eyes.visualgrid.services.VisualGridRunner;
 import core.Configuration;
 import core.Context;
 import core.Driver;
@@ -9,7 +14,6 @@ import facades.database.RelationalDBFacade;
 import io.cucumber.core.api.Scenario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import org.junit.AfterClass;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,6 +21,8 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ui.Page;
 import utils.BrowserSetter;
+import utils.ConfigFileReader;
+import utils.VisualTestTool;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,14 +37,15 @@ public class WebHooks {
     private JavascriptExecutor js;
     private String skipBrowserStuff = "no";
     private String sameBrowser;
+    static VisualGridRunner runner = new VisualGridRunner(new RunnerOptions().testConcurrency(5));
+    static Eyes eyes = new Eyes(runner);
 
     public WebHooks() {
     }
 
-    @Before
+    @Before("order=0")
     public void beforeScenario(Scenario scenario) throws Exception {
         sameBrowser = System.getProperty("sameBrowser");
-        //
 
         if (Driver.current() != null
                 && sameBrowser.equalsIgnoreCase("yes")) {
@@ -47,7 +54,6 @@ public class WebHooks {
         } else {
             System.setProperty("byPassLogin", "no");
         }
-        ;
 
         switch (skipBrowserStuff) {
             case "yes":
@@ -84,9 +90,20 @@ public class WebHooks {
                 }
         }
     }
+//    @Before
+//    public void beforeAssignAuthor (Scenario scenario) {
+//        if (scenario.getName().contains("Warriors")) {
+//            Reporter.addStepLog("Add author");
+//            Reporter.assignAuthor("EV6 Automation - Warriors: Allen Toole");
+//        }
+//    }
 
     @After
     public void afterScenario(Scenario scenario) throws Exception {
+        eyes.closeAsync();
+        TestResultsSummary allTestResults = runner.getAllTestResults(false);
+        System.out.println(allTestResults);
+
         System.out.println(scenario.getName() + "\n" + scenario.getLine());
         switch (sameBrowser) {
             case "yes":
@@ -102,6 +119,13 @@ public class WebHooks {
                 Driver.current().quit();
         }
     }
+//    @After
+//    public static void writeExtentReport() {
+//        loadXMLConfig(new File(FileReaderManager.getInstance()
+//                .getConfigReader().getReportConfigPath()));
+//        Reporter.setSystemInfo("User Name", System.getProperty("user.name"));
+//        Reporter.setSystemInfo("Time Zone", System.getProperty("user.timezone"));
+//    }
 
     @Before("@SqlDb")
     public void beforeSqlDbScenario(Scenario scenario) {
@@ -123,21 +147,58 @@ public class WebHooks {
 
     }
 
-    @After("@SqlDb")
+    @After(value="@SqlDb")
     public void afterSqlDbScenario(Scenario scenario) {
 
     }
 
-    @Before("@NoSqlDb")
+    @Before(value="@NoSqlDb")
     public void beforeNoSqlDbScenario(Scenario scenario) {
         MongoDBFacade mongoDBFacade = new MongoDBFacade();
         mongoDBFacade.createCollection(System.getProperty(USER_NAME) + "_" + TEST);
         Context.put("mongoDBFacade", mongoDBFacade);
     }
 
-    @After("@NoSqlDb")
+    @After(value="@NoSqlDb")
     public void afterNoSqlDbScenario(Scenario scenario) {
         MongoDBFacade mongoDBFacade = (MongoDBFacade) Context.get("mongoDBFacade");
         mongoDBFacade.dropCollection(System.getProperty(USER_NAME) + "_" + TEST);
+    }
+
+    public static class FileReaderManager {
+        private static FileReaderManager fileReaderManager = new FileReaderManager();
+        private static ConfigFileReader configFileReader;
+
+        private FileReaderManager() {
+        }
+
+        public static FileReaderManager getInstance() {
+            return fileReaderManager;
+        }
+
+        public ConfigFileReader getConfigReader() {
+            return (configFileReader == null) ? new ConfigFileReader() : configFileReader;
+        }
+
+        @Before (value="@VisualTests", order=1)
+        public void beforeVisualTests(Scenario scenario) {
+            VisualTestTool.setUp(eyes);
+            eyes.open(Driver.current());
+            Context.put("eyes", eyes);
+
+            String batchName = "batch";
+            String nextBatch = "next";
+            String userName = System.getProperty("user.name");
+            String environment = System.getProperty("environment");
+
+            batchName = "Env: " + environment
+                    + "User: " + userName
+                    + "Scenario: " + scenario.getName();
+
+            if (nextBatch.equalsIgnoreCase("next")) VisualTestTool.setUp(eyes);
+
+            if (!batchName.equalsIgnoreCase(nextBatch))
+                eyes.setBatch(new BatchInfo(nextBatch));
+        }
     }
 }

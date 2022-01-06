@@ -25,6 +25,8 @@
         <cucumber.datatable.version>3.5.0</cucumber.datatable.version>
         <info.cukes.version>1.2.5</info.cukes.version>
         <io.appium.version>7.4.0</io.appium.version>
+        <extentreport.version>3.0.6</extentreport.version>
+        <picocontainer.version>2.15</picocontainer.version>
     </properties>
     <dependencies>
         <dependency>
@@ -34,15 +36,21 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-api</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.seleniumhq.selenium</groupId>-->
-<!--            <artifactId>selenium-api</artifactId>-->
-<!--            <version>3.11.0</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.seleniumhq.selenium</groupId>-->
+        <!--            <artifactId>selenium-api</artifactId>-->
+        <!--            <version>3.11.0</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-remote-driver</artifactId>
@@ -71,7 +79,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber.version}</version>
+            <version>7.0.0</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -102,7 +110,14 @@
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
-            <version>1.2.5</version>
+            <version>${info.cukes.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+            <version>${picocontainer.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -126,12 +141,28 @@
             <version>1.1</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.seleniumhq.selenium</groupId>-->
-<!--            <artifactId>selenium-api</artifactId>-->
-<!--            <version>3.141.59</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>${extentreport.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vimalselvam</groupId>
+            <artifactId>cucumber-extentsreport</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.13</version>
+        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.seleniumhq.selenium</groupId>-->
+        <!--            <artifactId>selenium-api</artifactId>-->
+        <!--            <version>3.141.59</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11</artifactId>
@@ -153,11 +184,24 @@
             <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
-        <!--        <dependency>-->
-<!--            <groupId>com.quartusnet</groupId>-->
+<!--        <dependency>-->
+<!--            <groupId>org.</groupId>-->
 <!--            <artifactId>qii-automation-framework</artifactId>-->
-<!--            <version>1.0.1</version>-->
+<!--            <version>1.0.2</version>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>qii</groupId>
+            <artifactId>myJar</artifactId>
+            <version>1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/jars/qii-automation-framework-1.0.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.applitools</groupId>
+            <artifactId>eyes-selenium-java3</artifactId>
+            <version>3.210.6</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>adp-automation-testsuite</finalName>
@@ -181,6 +225,35 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.21.0</version>
             </plugin>
+<!--            <plugin>​ -->
+<!--                <groupId>org.codehaus.mojo</groupId>​ -->
+<!--                <artifactId>exec-maven-plugin</artifactId>​ -->
+<!--                <version>1.2.1</version>​ -->
+<!--                <executions>​ -->
+<!--                    <execution>​ -->
+<!--                        <phase>integration-test</phase>​ -->
+<!--                        <goals>​ -->
+<!--                            <goal>java</goal>​ -->
+<!--                        </goals>-->
+<!--                        <configuration>​ -->
+<!--                            <classpathScope>test</classpathScope>​ -->
+<!--                            <mainClass>cucumber.cli.Main</mainClass>​ -->
+<!--                            <arguments>​ -->
+<!--                                <argument>&#45;&#45;plugin "html:target/cucumber-html-report"-->
+<!--                                    , "junit:target/cucumber-junit.xml"-->
+<!--                                    , "json:target/cucumber.json"-->
+<!--                                    , "pretty:target/cucumber-pretty.txt"-->
+<!--                                    , "usage:target/cucumber-usage.json"-->
+<!--                                    , "com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"</argument>​ -->
+<!--                                <argument>pretty</argument>​ -->
+<!--                                <argument>&#45;&#45;glue "cucumber/stepDefinitions"</argument>​ -->
+<!--                                <argument>features "src/test/resources/features"</argument>​ -->
+<!--                                <argument>src/test/resources/features</argument>​ -->
+<!--                            </arguments>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>
